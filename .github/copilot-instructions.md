@@ -12,6 +12,14 @@ cd aero-hand-open-website
 docker compose -f source-aero-hand-main/compose.yaml up --build
 ```
 
+On Windows, ensure Docker Desktop is running before starting containers. If
+`docker compose` fails because the Compose plugin is missing (for example,
+`unknown shorthand flag: 'f' in -f`), use the standalone executable:
+
+```powershell
+docker-compose -f source-aero-hand-main\compose.yaml up --build
+```
+
 Do not start only the static website or only one service. This Compose file
 starts the website (port 8765), CAD viewer (port 3245), and synthetic
 digital-twin WebSocket (port 8888). Once started, open
@@ -22,6 +30,9 @@ later stop the stack with:
 ```sh
 docker compose -f source-aero-hand-main/compose.yaml down
 ```
+
+When using standalone Compose, replace `docker compose` with `docker-compose`
+in the stop command as well.
 
 If Docker is unavailable, on Windows run `START_WEBSITE.bat` instead. It
 requires Python 3.10+, `websockets`, and `cadgen==0.7.10`; the launcher installs

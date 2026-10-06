@@ -16,9 +16,18 @@ cd aero-hand-open-website
 docker compose -f source-aero-hand-main/compose.yaml up --build
 ```
 
-On Windows, the same command works in PowerShell. Wait for all three services
-to start, then open <http://localhost:8765/simulation/index.html>. The site
-includes the interactive CAD viewer and digital-twin/URDF viewer.
+On Windows, start Docker Desktop first and run the command in PowerShell. If
+`docker compose` reports that `-f` is an unknown flag or that `compose` is not
+recognized, your Docker CLI lacks the Compose plugin; use its standalone
+Compose command instead:
+
+```powershell
+docker-compose -f source-aero-hand-main\compose.yaml up --build
+```
+
+Wait for all three services to start, then open
+<http://localhost:8765/simulation/index.html>. The site includes the
+interactive CAD viewer and digital-twin/URDF viewer.
 
 | Service | Local address |
 | --- | --- |
@@ -32,6 +41,9 @@ background, add `-d` to the `up --build` command; stop them later with:
 ```sh
 docker compose -f source-aero-hand-main/compose.yaml down
 ```
+
+With standalone Compose, use
+`docker-compose -f source-aero-hand-main\compose.yaml down` to stop it.
 
 The ports bind to the local machine only. This is a local demo stack, not a
 public production deployment. The twin uses synthetic dry-run telemetry and
