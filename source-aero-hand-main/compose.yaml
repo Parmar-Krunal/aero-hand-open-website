@@ -1,0 +1,42 @@
+services:
+  website:
+    build: .
+    image: aero-hand-open:local
+    command:
+      - python
+      - -m
+      - http.server
+      - "8765"
+      - --bind
+      - 0.0.0.0
+    ports:
+      - "127.0.0.1:8765:8765"
+
+  cad-viewer:
+    build: .
+    image: aero-hand-open:local
+    command:
+      - cadgen
+      - viewer
+      - --port
+      - "3245"
+      - --host
+      - 0.0.0.0
+    ports:
+      - "127.0.0.1:3245:3245"
+
+  digital-twin:
+    build: .
+    image: aero-hand-open:local
+    command:
+      - python
+      - simulation/digital_twin_bridge.py
+      - --dry-run
+      - --ws
+      - --ws-host
+      - 0.0.0.0
+      - --ws-port
+      - "8888"
+      - --no-dashboard
+    ports:
+      - "127.0.0.1:8888:8888"

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Aero Hand Open — Complete Engineering & Digital Twin Hub. Open-source 7-DoF tendon-driven robotic hand by TetherIA with Gazebo, MuJoCo & Unity support.">
+<meta name="theme-color" content="#f5f4ef">
+<title>Aero Hand Open — Engineering &amp; Digital Twin Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- INJECT:STYLES -->
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+  <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+  <span class="theme-toggle-label">Dark mode</span>
+</button>
+
+<!-- ══ SIDEBAR NAVIGATION ══════════════════════════════════════ -->
+<nav class="sidebar" id="sidebar" aria-label="Site navigation">
+  <div class="sb-brand">
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="true">☰</button>
+    <div class="sb-mark">AH</div>
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;align-items:center;gap:6px">
+        <strong>Aero Hand Open</strong>
+        <span class="pill pill-c" style="font-size:9.5px;padding:1px 6px">v0.7.10</span>
+      </div>
+      <small>Engineering &amp; Twin Hub</small>
+    </div>
+    <button class="sb-collapse-toggle" id="btnCollapseSidebar" type="button" title="Toggle compact sidebar" aria-label="Collapse sidebar">◀</button>
+  </div>
+
+
+  <div class="nav-scroll">
+    <div class="nav-label">System &amp; Controls</div>
+    <a class="nav-item" href="#overview"><span class="nav-icon">📐</span>Overview</a>
+    <a class="nav-item" href="#digital-twin"><span class="nav-icon">🔀</span>Digital Twin Live</a>
+    <a class="nav-item" href="#studio-ide"><span class="nav-icon">💻</span>Studio IDE &amp; Compiler</a>
+    <a class="nav-item" href="#cad-viewer"><span class="nav-icon">🦾</span>3D CAD Studio</a>
+
+    <div class="nav-label">Hardware &amp; Electronics</div>
+    <a class="nav-item" href="#electronics"><span class="nav-icon">⚡</span>Electronics &amp; Wiring</a>
+
+    <div class="nav-label">Software &amp; Simulation</div>
+    <a class="nav-item" href="#simulation-hub"><span class="nav-icon">🌐</span>Simulation Hub</a>
+    <a class="nav-item" href="#firmware"><span class="nav-icon">💾</span>Firmware &amp; Protocol</a>
+    <a class="nav-item" href="#sdk"><span class="nav-icon">🐍</span>Python SDK</a>
+    <a class="nav-item" href="#ros2"><span class="nav-icon">🤖</span>ROS 2 &amp; Teleop</a>
+
+    <div class="nav-label">Project</div>
+    <a class="nav-item" href="#community"><span class="nav-icon">💬</span>Community &amp; Source</a>
+  </div>
+
+  <!-- Pinned Hardware Telemetry Footer -->
+  <div class="sb-status-footer">
+    <div class="sb-status-line">
+      <span class="sb-status-dot online"></span>
+      <span class="sb-status-text" id="sbStatusText">Bridge: Standby</span>
+    </div>
+    <div class="sb-status-metrics">
+      <span>Bus: <strong id="sbBusVolt">6.12V</strong></span>
+      <span>RTT: <strong id="sbLatency">4ms</strong></span>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="sb-overlay" id="sbOverlay"></div>
+<!-- ══ MAIN CONTENT (INJECTED SECTIONS) ══════════════════════ -->
+<main class="main">
+  <!-- INJECT:SECTION:02_overview -->
+  <!-- INJECT:SECTION:03_digital_twin -->
+  <!-- INJECT:SECTION:03_studio_ide -->
+  <!-- INJECT:SECTION:04_cad_viewer -->
+  <!-- INJECT:SECTION:06_electronics -->
+  <!-- INJECT:SECTION:07_simulation_hub -->
+  <!-- INJECT:SECTION:08_firmware -->
+  <!-- INJECT:SECTION:09_sdk -->
+  <!-- INJECT:SECTION:10_ros2 -->
+  <!-- INJECT:SECTION:11_community -->
+</main>
+
+<a class="btn btn-p" id="toTop" href="#overview" aria-label="Back to top" style="position:fixed;bottom:24px;right:24px;z-index:99;padding:10px 14px;border-radius:50%;display:none">↑</a>
+
+<!-- CodeMirror Editor (Antigravity & VS Code Theme) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+
+<!-- Three.js + STLLoader from fast CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/urdf-loader@0.12.4/umd/URDFLoader.js"></script>
+
+<!-- MediaPipe Hands + Camera for AI Webcam Tracking -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+<!-- INJECT:SCRIPTS -->
+</body>
+</html>

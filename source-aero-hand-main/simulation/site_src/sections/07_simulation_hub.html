@@ -1,0 +1,80 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 7: SIMULATION HUB ━━━━━━━━━━━━━━━━ -->
+<section id="simulation-hub">
+  <span class="eyebrow">Robotics Simulation &amp; Physics</span>
+  <h2 class="s-title">Simulation <span class="grad">Engine Hub</span></h2>
+  <p class="s-sub">First-class digital twin integration across the industry's top three robotics simulation platforms. Stream angles, mirror motions, and feed fingertip forces back into the physics loop.</p>
+
+  <div class="g3" style="margin-bottom:28px">
+    <!-- Gazebo Card -->
+    <div class="card" style="border-color:rgba(93,228,228,.3)">
+      <div style="font-size:24px;margin-bottom:8px">🤖</div>
+      <div class="card-ttl">Gazebo Harmonic</div>
+      <div class="card-txt" style="margin-bottom:12px">
+        Full 16-joint SDF model with individual <code>JointPositionController</code> systems and a <code>JointStatePublisher</code> for bidirectional mirroring.
+      </div>
+      <div class="ex-card" style="padding:10px;font-size:11px;margin-bottom:10px">
+        <code>gz sim -r simulation/world_right_twin.sdf</code>
+      </div>
+      <div class="btn-group">
+        <a class="btn" href="world_right_twin.sdf" target="_blank" style="font-size:11px;padding:5px 10px">📄 Twin SDF ↗</a>
+      </div>
+    </div>
+
+    <!-- MuJoCo Card -->
+    <div class="card" style="border-color:rgba(167,139,250,.3)">
+      <div style="font-size:24px;margin-bottom:8px">⚡</div>
+      <div class="card-ttl">DeepMind MuJoCo</div>
+      <div class="card-txt" style="margin-bottom:12px">
+        Fast MJCF XML model with contact geometries, tendon actuators, and 5 fingertip touch sensors for tactile pressure feedback.
+      </div>
+      <div class="ex-card" style="padding:10px;font-size:11px;margin-bottom:10px">
+        <code>python simulation/mujoco_digital_twin.py --dry-run</code>
+      </div>
+      <div class="btn-group">
+        <a class="btn" href="world_right_mujoco.xml" target="_blank" style="font-size:11px;padding:5px 10px">📄 MuJoCo XML ↗</a>
+        <a class="btn" href="mujoco_digital_twin.py" target="_blank" style="font-size:11px;padding:5px 10px">🐍 Runner ↗</a>
+      </div>
+    </div>
+
+    <!-- Unity Card -->
+    <div class="card" style="border-color:rgba(52,211,153,.3)">
+      <div style="font-size:24px;margin-bottom:8px">🎮</div>
+      <div class="card-ttl">Unity 3D</div>
+      <div class="card-txt" style="margin-bottom:12px">
+        Interactive VR/teleoperation package with C# <code>ArticulationBody</code> controller, live WebSocket telemetry listener, and collision force calculation.
+      </div>
+      <div class="ex-card" style="padding:10px;font-size:11px;margin-bottom:10px">
+        <code>simulation/unity/AeroHandDigitalTwin.cs</code>
+      </div>
+      <div class="btn-group">
+        <a class="btn" href="unity/README.md" target="_blank" style="font-size:11px;padding:5px 10px">📖 Unity Setup ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hdivider"></div>
+  <h3 style="font-size:16px;font-weight:700;margin-bottom:14px">Bidirectional Bridge &amp; Sensor Telemetry</h3>
+  <div class="g2">
+    <div class="card">
+      <span class="card-lbl">digital_twin_bridge.py Features</span>
+      <div class="card-txt">
+        • <strong>Real Hand → Sim:</strong> Polls physical hand at 50 Hz, converts 7 actuator counts → 16 URDF joint angles, publishes to Gazebo topics or WebSocket.<br><br>
+        • <strong>Sim → Real Hand (Mirror Mode):</strong> Reads simulator slider/pose outputs, translates through inverse tendon model, and commands physical servos.<br><br>
+        • <strong>FSR Sensor Ingestion:</strong> Connects to an Arduino running <code>aero_hand_fsr_sensor.ino</code> on a second COM port, reading 5 channels of tactile force (0–15 N) and piping into the twin.
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-lbl">Bridge Command-Line Reference</span>
+      <div class="ex-card" style="padding:12px;font-size:11.5px">
+        # Stream real hand to Gazebo &amp; WebSocket:<br>
+        python simulation/digital_twin_bridge.py --port COM3 --ws<br><br>
+        # With Arduino FSR pressure sensors:<br>
+        python simulation/digital_twin_bridge.py --port COM3 --sensor-port COM4<br><br>
+        # Mirror mode (Sim drives hand):<br>
+        python simulation/digital_twin_bridge.py --port COM3 --mirror<br><br>
+        # Standalone dry-run demo:<br>
+        python simulation/digital_twin_bridge.py --dry-run
+      </div>
+    </div>
+  </div>
+</section>

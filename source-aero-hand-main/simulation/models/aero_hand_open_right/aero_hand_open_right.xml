@@ -1,0 +1,224 @@
+<?xml version="1.0" ?>
+<mujoco model="aero_hand_open_right">
+  <compiler angle="radian" meshdir="../../../ros2/src/aero_hand_open_description/meshes" balanceinertia="true"/>
+  <option gravity="0 0 -9.81" timestep="0.002" cone="elliptic"/>
+  <default>
+    <joint damping="0.1" frictionloss="0.02"/>
+    <geom condim="4" friction="1.0 0.05 0.001"/>
+  </default>
+  <asset>
+    <mesh name="mesh_right_base_link" file="right_base_link.STL"/>
+    <mesh name="mesh_right_t_link" file="right_t_link.STL"/>
+    <mesh name="mesh_right_thumb_mcp_link" file="right_thumb_mcp_link.STL"/>
+    <mesh name="mesh_right_thumb_proximal_link" file="right_thumb_proximal_link.STL"/>
+    <mesh name="mesh_right_thumb_distal_link" file="right_thumb_distal_link.STL"/>
+    <mesh name="mesh_right_thumb_tip_link" file="right_thumb_tip_link.STL"/>
+    <mesh name="mesh_right_index_proximal_link" file="right_index_proximal_link.STL"/>
+    <mesh name="mesh_right_index_middle_link" file="right_index_middle_link.STL"/>
+    <mesh name="mesh_right_index_distal_link" file="right_index_distal_link.STL"/>
+    <mesh name="mesh_right_index_tip_link" file="right_index_tip_link.STL"/>
+    <mesh name="mesh_right_middle_proximal_link" file="right_middle_proximal_link.STL"/>
+    <mesh name="mesh_right_middle_middle_link" file="right_middle_middle_link.STL"/>
+    <mesh name="mesh_right_middle_distal_link" file="right_middle_distal_link.STL"/>
+    <mesh name="mesh_right_middle_tip_link" file="right_middle_tip_link.STL"/>
+    <mesh name="mesh_right_ring_proximal_link" file="right_ring_proximal_link.STL"/>
+    <mesh name="mesh_right_ring_middle_link" file="right_ring_middle_link.STL"/>
+    <mesh name="mesh_right_ring_distal_link" file="right_ring_distal_link.STL"/>
+    <mesh name="mesh_right_ring_tip_link" file="right_ring_tip_link.STL"/>
+    <mesh name="mesh_right_pinky_proximal_link" file="right_pinky_proximal_link.STL"/>
+    <mesh name="mesh_right_pinky_middle_link" file="right_pinky_middle_link.STL"/>
+    <mesh name="mesh_right_pinky_distal_link" file="right_pinky_distal_link.STL"/>
+    <mesh name="mesh_right_pinky_tip_link" file="right_pinky_tip_link.STL"/>
+    <material name="mat_right_base_link" rgba="0.4667 0.5176 0.5765 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_t_link" rgba="0.7216 0.4588 0.1647 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_thumb_mcp_link" rgba="0.7961 0.5294 0.2196 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_thumb_proximal_link" rgba="0.8510 0.6196 0.3137 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_thumb_distal_link" rgba="0.9059 0.7333 0.4588 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_thumb_tip_link" rgba="0.9451 0.8471 0.6627 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_index_proximal_link" rgba="0.2784 0.4902 0.6549 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_index_middle_link" rgba="0.3882 0.5961 0.7412 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_index_distal_link" rgba="0.5608 0.7255 0.8353 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_index_tip_link" rgba="0.7686 0.8549 0.9098 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_middle_proximal_link" rgba="0.2392 0.5137 0.4706 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_middle_middle_link" rgba="0.3490 0.6314 0.5843 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_middle_distal_link" rgba="0.5176 0.7451 0.7020 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_middle_tip_link" rgba="0.7451 0.8667 0.8392 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_ring_proximal_link" rgba="0.5020 0.4039 0.5569 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_ring_middle_link" rgba="0.6078 0.5098 0.6588 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_ring_distal_link" rgba="0.7098 0.6353 0.7451 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_ring_tip_link" rgba="0.8471 0.8000 0.8706 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_pinky_proximal_link" rgba="0.6667 0.3961 0.3725 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_pinky_middle_link" rgba="0.7490 0.4902 0.4627 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_pinky_distal_link" rgba="0.8196 0.6039 0.5804 1.00" specular="0.5" shininess="0.4"/>
+    <material name="mat_right_pinky_tip_link" rgba="0.9020 0.7725 0.7569 1.00" specular="0.5" shininess="0.4"/>
+  </asset>
+  <worldbody>
+    <light directional="true" diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2" pos="0 0 1.5" dir="0 0 -1"/>
+    <body name="right_base_link">
+      <inertial pos="0.00109122507694746 0.00334946623951281 0.0489855934276007" mass="0.303576"/>
+      <geom type="mesh" mesh="mesh_right_base_link" contype="1" conaffinity="1" material="mat_right_base_link"/>
+      <body name="right_t_link" pos="0.028112 -0.0145 0.025363" euler="-1.2217 -0.0 -1.57">
+        <joint name="right_thumb_cmc_abd" type="hinge" axis="0 1 0" range="0 1.7453"/>
+        <inertial pos="-0.000883525104759189 0.00170407980029484 0.00831028240403424" mass="0.008335"/>
+        <geom type="mesh" mesh="mesh_right_t_link" contype="1" conaffinity="1" material="mat_right_t_link"/>
+        <body name="right_thumb_mcp_link" pos="-0.003475 0.003808 0.019656" euler="0.1325 -0.17906 0.26195">
+          <joint name="right_thumb_cmc_flex" type="hinge" axis="1 0 0" range="0 0.9599"/>
+          <inertial pos="-1.9848E-07 0.00075445 0.014668" mass="0.008207"/>
+          <geom type="mesh" mesh="mesh_right_thumb_mcp_link" contype="1" conaffinity="1" material="mat_right_thumb_mcp_link"/>
+          <body name="right_thumb_proximal_link" pos="0 0.0033822 0.035848" euler="0 0 0">
+            <joint name="right_thumb_mcp" type="hinge" axis="1 0 0" range="0 1.5708"/>
+            <inertial pos="7.9121E-09 0.001007 0.011955" mass="0.005471"/>
+            <geom type="mesh" mesh="mesh_right_thumb_proximal_link" contype="1" conaffinity="1" material="mat_right_thumb_proximal_link"/>
+            <body name="right_thumb_distal_link" pos="0 0.002206 0.029919" euler="0 0 0">
+              <joint name="right_thumb_ip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+              <inertial pos="-6.4155E-07 -0.0011983 0.010377" mass="0.003240"/>
+              <geom type="mesh" mesh="mesh_right_thumb_distal_link" contype="1" conaffinity="1" material="mat_right_thumb_distal_link"/>
+              <body name="right_thumb_tip_link" pos="0 0.0059474 0.031823" euler="0 0 0">
+                <inertial pos="2.2383E-07 -0.010203 -0.013939" mass="0.002000"/>
+                <geom type="mesh" mesh="mesh_right_thumb_tip_link" contype="1" conaffinity="1" material="mat_right_thumb_tip_link"/>
+                <site name="thumb_touch_site" pos="0 0 0" size="0.008" rgba="0.2 0.8 1.0 0.6" type="sphere"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="right_index_proximal_link" pos="0.030626 -0.0011782 0.10542" euler="0 0.05236 -0.034907">
+        <joint name="right_index_mcp_flex" type="hinge" axis="1 0 0" range="0 1.5708"/>
+        <inertial pos="4.30529992941076E-08 -0.0024559603959039 0.0191142514901699" mass="0.007200"/>
+        <geom type="mesh" mesh="mesh_right_index_proximal_link" contype="1" conaffinity="1" material="mat_right_index_proximal_link"/>
+        <body name="right_index_middle_link" pos="0 -0.0014554 0.043" euler="0 0 0">
+          <joint name="right_index_pip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+          <inertial pos="-6.47985752902369E-09 -0.000363269614703799 0.00876079008757696" mass="0.002762"/>
+          <geom type="mesh" mesh="mesh_right_index_middle_link" contype="1" conaffinity="1" material="mat_right_index_middle_link"/>
+          <body name="right_index_distal_link" pos="0 0 0.022" euler="0 0 0">
+            <joint name="right_index_dip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+            <inertial pos="3.34671961321059E-07 -0.00120224143694181 0.00777234707760652" mass="0.002000"/>
+            <geom type="mesh" mesh="mesh_right_index_distal_link" contype="1" conaffinity="1" material="mat_right_index_distal_link"/>
+            <body name="right_index_tip_link" pos="0 0.003512 0.026776" euler="0 0 0">
+              <inertial pos="2.3798090519056E-08 -0.00705353273135757 -0.0124434081224676" mass="0.002000"/>
+              <geom type="mesh" mesh="mesh_right_index_tip_link" contype="1" conaffinity="1" material="mat_right_index_tip_link"/>
+              <site name="index_touch_site" pos="0 0 0" size="0.008" rgba="0.2 0.8 1.0 0.6" type="sphere"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="right_middle_proximal_link" pos="0.0075 0 0.106" euler="0 0 0">
+        <joint name="right_middle_mcp_flex" type="hinge" axis="1 0 0" range="0 1.5708"/>
+        <inertial pos="3.04863738940235E-08 -0.00245596411252013 0.0191142544123753" mass="0.007200"/>
+        <geom type="mesh" mesh="mesh_right_middle_proximal_link" contype="1" conaffinity="1" material="mat_right_middle_proximal_link"/>
+        <body name="right_middle_middle_link" pos="0 -0.0014554 0.043" euler="0 0 0">
+          <joint name="right_middle_pip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+          <inertial pos="-2.85973601964011E-09 -0.000363264332488778 0.00876078146450842" mass="0.002762"/>
+          <geom type="mesh" mesh="mesh_right_middle_middle_link" contype="1" conaffinity="1" material="mat_right_middle_middle_link"/>
+          <body name="right_middle_distal_link" pos="0 0 0.022" euler="0 0 0">
+            <joint name="right_middle_dip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+            <inertial pos="1.25205983373364E-07 -0.00120223641223895 0.00777324919661349" mass="0.002000"/>
+            <geom type="mesh" mesh="mesh_right_middle_distal_link" contype="1" conaffinity="1" material="mat_right_middle_distal_link"/>
+            <body name="right_middle_tip_link" pos="0 0.003512 0.026776" euler="0 0 0">
+              <inertial pos="-7.96462318148356E-08 -0.00705328274533182 -0.0124432893968912" mass="0.002000"/>
+              <geom type="mesh" mesh="mesh_right_middle_tip_link" contype="1" conaffinity="1" material="mat_right_middle_tip_link"/>
+              <site name="middle_touch_site" pos="0 0 0" size="0.008" rgba="0.2 0.8 1.0 0.6" type="sphere"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="right_ring_proximal_link" pos="-0.015626 -0.0011782 0.10542" euler="0 -0.05236 0.034907">
+        <joint name="right_ring_mcp_flex" type="hinge" axis="1 0 0" range="0 1.5708"/>
+        <inertial pos="-2.24219388229863E-08 -0.00245596869794189 0.0191142172606163" mass="0.007200"/>
+        <geom type="mesh" mesh="mesh_right_ring_proximal_link" contype="1" conaffinity="1" material="mat_right_ring_proximal_link"/>
+        <body name="right_ring_middle_link" pos="0 -0.0014554 0.043" euler="0 0 0">
+          <joint name="right_ring_pip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+          <inertial pos="-1.05768104170789E-08 -0.000363267692106015 0.00876078358138278" mass="0.002762"/>
+          <geom type="mesh" mesh="mesh_right_ring_middle_link" contype="1" conaffinity="1" material="mat_right_ring_middle_link"/>
+          <body name="right_ring_distal_link" pos="0 0 0.022" euler="0 0 0">
+            <joint name="right_ring_dip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+            <inertial pos="4.41236248528015E-07 -0.00120206116795719 0.0077717480697731" mass="0.002000"/>
+            <geom type="mesh" mesh="mesh_right_ring_distal_link" contype="1" conaffinity="1" material="mat_right_ring_distal_link"/>
+            <body name="right_ring_tip_link" pos="0 0.003512 0.026776" euler="0 0 0">
+              <inertial pos="-5.22173938463655E-09 -0.00705335731849239 -0.0124436468089668" mass="0.002000"/>
+              <geom type="mesh" mesh="mesh_right_ring_tip_link" contype="1" conaffinity="1" material="mat_right_ring_tip_link"/>
+              <site name="ring_touch_site" pos="0 0 0" size="0.008" rgba="0.2 0.8 1.0 0.6" type="sphere"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="right_pinky_proximal_link" pos="-0.038266 -0.0036416 0.092393" euler="0 -0.10472 0.069946">
+        <joint name="right_pinky_mcp_flex" type="hinge" axis="1 0 0" range="0 1.5708"/>
+        <inertial pos="-2.95727574026183E-08 -0.00245597557732571 0.0191142201685638" mass="0.007200"/>
+        <geom type="mesh" mesh="mesh_right_pinky_proximal_link" contype="1" conaffinity="1" material="mat_right_pinky_proximal_link"/>
+        <body name="right_pinky_middle_link" pos="0 -0.0014554 0.043" euler="0 0 0">
+          <joint name="right_pinky_pip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+          <inertial pos="-7.30330518283751E-09 -0.000363268490759203 0.00876078540200605" mass="0.002762"/>
+          <geom type="mesh" mesh="mesh_right_pinky_middle_link" contype="1" conaffinity="1" material="mat_right_pinky_middle_link"/>
+          <body name="right_pinky_distal_link" pos="0 0 0.022" euler="0 0 0">
+            <joint name="right_pinky_dip" type="hinge" axis="1 0 0" range="0 1.5708"/>
+            <inertial pos="4.31454935043152E-07 -0.00120202346438717 0.00777263499391853" mass="0.002000"/>
+            <geom type="mesh" mesh="mesh_right_pinky_distal_link" contype="1" conaffinity="1" material="mat_right_pinky_distal_link"/>
+            <body name="right_pinky_tip_link" pos="0 0.003512 0.026776" euler="0 0 0">
+              <inertial pos="2.46097005066059E-08 -0.00705336045711742 -0.0124436503190868" mass="0.002000"/>
+              <geom type="mesh" mesh="mesh_right_pinky_tip_link" contype="1" conaffinity="1" material="mat_right_pinky_tip_link"/>
+              <site name="pinky_touch_site" pos="0 0 0" size="0.008" rgba="0.2 0.8 1.0 0.6" type="sphere"/>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="act_right_thumb_cmc_abd" joint="right_thumb_cmc_abd" kp="25.0" kv="2.5" ctrlrange="0.0000 1.7453"/>
+    <position name="act_right_thumb_cmc_flex" joint="right_thumb_cmc_flex" kp="25.0" kv="2.5" ctrlrange="0.0000 0.9599"/>
+    <position name="act_right_thumb_mcp" joint="right_thumb_mcp" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_thumb_ip" joint="right_thumb_ip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_index_mcp_flex" joint="right_index_mcp_flex" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_index_pip" joint="right_index_pip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_index_dip" joint="right_index_dip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_middle_mcp_flex" joint="right_middle_mcp_flex" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_middle_pip" joint="right_middle_pip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_middle_dip" joint="right_middle_dip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_ring_mcp_flex" joint="right_ring_mcp_flex" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_ring_pip" joint="right_ring_pip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_ring_dip" joint="right_ring_dip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_pinky_mcp_flex" joint="right_pinky_mcp_flex" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_pinky_pip" joint="right_pinky_pip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+    <position name="act_right_pinky_dip" joint="right_pinky_dip" kp="25.0" kv="2.5" ctrlrange="0.0000 1.5708"/>
+  </actuator>
+  <sensor>
+    <touch name="thumb_touch_force" site="thumb_touch_site"/>
+    <touch name="index_touch_force" site="index_touch_site"/>
+    <touch name="middle_touch_force" site="middle_touch_site"/>
+    <touch name="ring_touch_force" site="ring_touch_site"/>
+    <touch name="pinky_touch_force" site="pinky_touch_site"/>
+    <jointpos name="pos_right_thumb_cmc_abd" joint="right_thumb_cmc_abd"/>
+    <jointvel name="vel_right_thumb_cmc_abd" joint="right_thumb_cmc_abd"/>
+    <jointpos name="pos_right_thumb_cmc_flex" joint="right_thumb_cmc_flex"/>
+    <jointvel name="vel_right_thumb_cmc_flex" joint="right_thumb_cmc_flex"/>
+    <jointpos name="pos_right_thumb_mcp" joint="right_thumb_mcp"/>
+    <jointvel name="vel_right_thumb_mcp" joint="right_thumb_mcp"/>
+    <jointpos name="pos_right_thumb_ip" joint="right_thumb_ip"/>
+    <jointvel name="vel_right_thumb_ip" joint="right_thumb_ip"/>
+    <jointpos name="pos_right_index_mcp_flex" joint="right_index_mcp_flex"/>
+    <jointvel name="vel_right_index_mcp_flex" joint="right_index_mcp_flex"/>
+    <jointpos name="pos_right_index_pip" joint="right_index_pip"/>
+    <jointvel name="vel_right_index_pip" joint="right_index_pip"/>
+    <jointpos name="pos_right_index_dip" joint="right_index_dip"/>
+    <jointvel name="vel_right_index_dip" joint="right_index_dip"/>
+    <jointpos name="pos_right_middle_mcp_flex" joint="right_middle_mcp_flex"/>
+    <jointvel name="vel_right_middle_mcp_flex" joint="right_middle_mcp_flex"/>
+    <jointpos name="pos_right_middle_pip" joint="right_middle_pip"/>
+    <jointvel name="vel_right_middle_pip" joint="right_middle_pip"/>
+    <jointpos name="pos_right_middle_dip" joint="right_middle_dip"/>
+    <jointvel name="vel_right_middle_dip" joint="right_middle_dip"/>
+    <jointpos name="pos_right_ring_mcp_flex" joint="right_ring_mcp_flex"/>
+    <jointvel name="vel_right_ring_mcp_flex" joint="right_ring_mcp_flex"/>
+    <jointpos name="pos_right_ring_pip" joint="right_ring_pip"/>
+    <jointvel name="vel_right_ring_pip" joint="right_ring_pip"/>
+    <jointpos name="pos_right_ring_dip" joint="right_ring_dip"/>
+    <jointvel name="vel_right_ring_dip" joint="right_ring_dip"/>
+    <jointpos name="pos_right_pinky_mcp_flex" joint="right_pinky_mcp_flex"/>
+    <jointvel name="vel_right_pinky_mcp_flex" joint="right_pinky_mcp_flex"/>
+    <jointpos name="pos_right_pinky_pip" joint="right_pinky_pip"/>
+    <jointvel name="vel_right_pinky_pip" joint="right_pinky_pip"/>
+    <jointpos name="pos_right_pinky_dip" joint="right_pinky_dip"/>
+    <jointvel name="vel_right_pinky_dip" joint="right_pinky_dip"/>
+  </sensor>
+</mujoco>

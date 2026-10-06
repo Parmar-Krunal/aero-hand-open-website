@@ -1,0 +1,105 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 6: ELECTRONICS & WIRING ━━━━━━━━━━━━━━━━ -->
+<section id="electronics">
+  <span class="eyebrow">Electrical Hardware</span>
+  <h2 class="s-title">Electronics <span class="grad">&amp; Wiring Architecture</span></h2>
+  <p class="s-sub">Full board pinout and wiring schematic derived from the repository KiCad schematic and PCB layout. Distinguishes verified stock circuitry from proposed sensor expansions.</p>
+
+  <div style="display:grid;grid-template-columns:minmax(320px, 1.3fr) minmax(280px, 1fr);gap:18px;align-items:start">
+    <div>
+      <div style="background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;padding:16px">
+        <a href="AERO_HAND_WIRING.svg" target="_blank" rel="noopener" title="Click to open full high-resolution SVG diagram">
+          <img src="AERO_HAND_WIRING.svg" alt="Aero Hand port-by-port wiring diagram" style="width:100%;height:auto;border-radius:8px">
+        </a>
+        <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px">
+          Click diagram to inspect full vector SVG · Green = Verified Stock · Blue = Proposed Sensor Expansion
+        </div>
+      </div>
+      <div class="btn-group" style="margin-top:14px">
+        <a class="btn" href="AERO_HAND_WIRING.svg" target="_blank" rel="noopener">↗ Open Full SVG Drawing</a>
+        <a class="btn" href="../hardware/PCB/Aero_hand_open_right/Aero-Hand-Open-Right.kicad_sch" target="_blank" rel="noopener">📐 KiCad Schematic</a>
+        <a class="btn" href="../hardware/PCB/Aero_hand_open_right/Aero-Hand-Open-Right.kicad_pcb" target="_blank" rel="noopener">🗂️ PCB Layout</a>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:14px 18px;background:rgba(242,248,251,.94);border-bottom:1px solid var(--border)">
+          <span class="card-lbl" style="margin:0">Verified PCB Connector Pinout</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);color:var(--muted)">
+              <th style="padding:8px 14px;text-align:left">Connector</th>
+              <th style="padding:8px 14px;text-align:left">Signal / Net</th>
+              <th style="padding:8px 14px;text-align:left">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+              <td style="padding:8px 14px;font-weight:600">XIAO GPIO3</td>
+              <td style="padding:8px 14px"><code>Servo_RXD</code></td>
+              <td style="padding:8px 14px">UART2 TX from ESP32 to bus driver</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+              <td style="padding:8px 14px;font-weight:600">XIAO GPIO2</td>
+              <td style="padding:8px 14px"><code>Servo_TXD</code></td>
+              <td style="padding:8px 14px">UART2 RX to ESP32 from bus receiver</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+              <td style="padding:8px 14px;font-weight:600">J8 (XT30)</td>
+              <td style="padding:8px 14px"><code>DC6V / GND</code></td>
+              <td style="padding:8px 14px">High-current motor rail (up to 10 A peak)</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+              <td style="padding:8px 14px;font-weight:600">J1–J7 (3-Pin)</td>
+              <td style="padding:8px 14px"><code>GND / 6V / DATA</code></td>
+              <td style="padding:8px 14px">Daisy-chained Feetech servos (IDs 0–6)</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+              <td style="padding:8px 14px;font-weight:600">USB-C</td>
+              <td style="padding:8px 14px"><code>D+ / D- / 5V</code></td>
+              <td style="padding:8px 14px">Host serial link @ 921,600 baud</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>⚡ Power Rail Isolation:</strong> The 6 V external servo rail (XT30 connector J8) powers only the smart servos and is kept strictly separate from the USB 5 V logic rail. Connecting 6 V to ESP32 GPIO or USB VBUS will destroy the microcontroller.
+      </div>
+
+      <div class="card">
+        <span class="card-lbl">Hardware Protection Features</span>
+        <div class="card-txt">
+          • <strong>SN74LVC1G126 &amp; SN74LVC1G125:</strong> High-speed tri-state bus buffers for half-duplex UART arbitration.<br>
+          • <strong>100 mA PTC Resettable Fuse:</strong> Protects MCU GPIO against accidental bus short-circuits.<br>
+          • <strong>Decoupling &amp; Filtering:</strong> 100 µF bulk electrolytic + 100 nF ceramic capacitors smooth motor inrush currents.
+        </div>
+      </div>
+
+      <!-- Interactive XT30 Power & Current Safety Estimator -->
+      <div class="card" style="padding:16px;background:rgba(255,255,255,.72);border:1px solid var(--border)">
+        <span class="card-lbl">Live XT30 Power &amp; Current Estimator</span>
+        <div style="margin:8px 0;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:12px;color:var(--ink)">Simulated Servo Bus Load:</span>
+          <strong id="xt30LoadDisplay" style="font-size:13px;color:var(--cyan);font-family:var(--mono)">50% (Normal Grasp)</strong>
+        </div>
+        <input type="range" id="xt30LoadSlider" min="10" max="100" value="50" style="width:100%;accent-color:var(--cyan);cursor:pointer">
+        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:10px;text-align:center;font-size:11px">
+          <div style="background:rgba(8,127,157,0.06);padding:8px;border-radius:8px">
+            <div style="color:var(--muted)">Rail Current</div>
+            <strong id="xt30CurrentVal" style="color:var(--ink);font-size:13px;font-family:var(--mono)">3.5 A</strong>
+          </div>
+          <div style="background:rgba(8,127,157,0.06);padding:8px;border-radius:8px">
+            <div style="color:var(--muted)">Total Power</div>
+            <strong id="xt30PowerVal" style="color:var(--ink);font-size:13px;font-family:var(--mono)">21.0 W</strong>
+          </div>
+          <div style="background:rgba(16,185,129,0.08);padding:8px;border-radius:8px">
+            <div style="color:var(--muted)">Safety Margin</div>
+            <strong id="xt30GaugeVal" style="color:var(--green);font-size:13px">18 AWG · OK</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

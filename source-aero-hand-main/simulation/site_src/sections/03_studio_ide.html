@@ -1,0 +1,146 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION: AERO CODE STUDIO & IN-BROWSER COMPILER ━━━━━━━━━━━━━━━━ -->
+<section id="studio-ide">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:8px">
+    <div>
+      <span class="eyebrow">Development &amp; In-Browser Compiler</span>
+      <h2 class="s-title">Aero Hand <span class="grad">Studio IDE &amp; Compiler</span></h2>
+      <p class="s-sub" style="margin-bottom:0">A full-featured VS Code &amp; Antigravity-inspired code editor right in your browser. Inspect, edit, recompile, and execute simulation models, telemetry bridges, firmware scripts, and kinematics live.</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <span class="pill pill-c">VS Code Engine</span>
+      <span class="pill pill-g">Python 3.11 + WebAssembly</span>
+      <span class="pill pill-p">Live Hot Reload</span>
+    </div>
+  </div>
+
+  <div class="ide-container" id="aeroIdeContainer">
+    <!-- ── TITLEBAR ── -->
+    <div class="ide-titlebar">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="ide-window-dots">
+          <div class="ide-dot red"></div>
+          <div class="ide-dot yellow"></div>
+          <div class="ide-dot green"></div>
+        </div>
+        <div class="ide-title-text" id="ideTitleText">aero-hand-open [Workspace] — digital_twin_bridge.py</div>
+      </div>
+      
+      <div class="ide-actions-bar">
+        <button class="ide-btn primary" id="btnIdeCompileRun" title="Compile and run in browser / update digital twin">
+          <span>▶</span> Compile &amp; Run
+        </button>
+        <button class="ide-btn" id="btnIdeSave" title="Save file edits locally">
+          <span>💾</span> Save
+        </button>
+        <button class="ide-btn" id="btnIdeRevert" title="Revert to repository original">
+          <span>🔄</span> Revert
+        </button>
+        <button class="ide-btn" id="btnIdeDownload" title="Download modified file">
+          <span>⬇</span> Export
+        </button>
+        <button class="ide-btn" id="btnIdeConnectBridge" title="Connect to the local Python bridge">
+          <span>🔌</span> Bridge
+        </button>
+        <button class="ide-btn" id="btnIdeConnectHardware" title="Connect to a microcontroller using Web Serial">
+          <span>⚡</span> Hardware
+        </button>
+      </div>
+    </div>
+
+    <!-- ── WORKSPACE ── -->
+    <div class="ide-workspace">
+      <!-- Activity Bar -->
+      <div class="ide-activitybar">
+        <div class="ide-activity-icon active" id="actExplorer" title="Explorer (Ctrl+Shift+E)">📁</div>
+        <div class="ide-activity-icon" id="actSearch" title="Search (Ctrl+Shift+F)">🔍</div>
+        <div class="ide-activity-icon" id="actDebug" title="Run and Debug (Ctrl+Shift+D)">🐞</div>
+        <div class="ide-activity-icon" id="actGit" title="Source Control (Ctrl+Shift+G)">🌿</div>
+        <div class="ide-activity-icon" id="actSettings" title="Settings" style="margin-top:auto">⚙️</div>
+      </div>
+
+      <!-- File Explorer Sidebar -->
+      <div class="ide-sidebar" id="ideSidebar">
+        <div class="ide-sidebar-header">EXPLORER: AERO-HAND</div>
+        <div class="ide-file-tree" id="ideFileTree">
+          <div class="ide-tree-folder">▼ simulation</div>
+          <div class="ide-tree-file active" data-file="digital_twin_bridge.py">📄 digital_twin_bridge.py</div>
+          <div class="ide-tree-file" data-file="mujoco_digital_twin.py">📄 mujoco_digital_twin.py</div>
+          <div class="ide-tree-file" data-file="world_right_twin.sdf">📄 world_right_twin.sdf</div>
+          
+          <div class="ide-tree-folder" style="margin-top:6px">▼ cad</div>
+          <div class="ide-tree-file" data-file="cadgen_model.py">📄 cadgen_model.py</div>
+          <div class="ide-tree-file" data-file="exploded_view_config.json">📄 exploded_view_config.json</div>
+          
+          <div class="ide-tree-folder" style="margin-top:6px">▼ sdk</div>
+          <div class="ide-tree-file" data-file="aero_hand.py">📄 aero_hand.py</div>
+          <div class="ide-tree-file" data-file="teleop_kinematics.py">📄 teleop_kinematics.py</div>
+          
+          <div class="ide-tree-folder" style="margin-top:6px">▼ firmware</div>
+          <div class="ide-tree-file" data-file="aero_hand_controller.ino">📄 aero_hand_controller.ino</div>
+          
+          <div class="ide-tree-folder" style="margin-top:6px">▼ vision</div>
+          <div class="ide-tree-file" data-file="webcam_tracker.js">📄 webcam_tracker.js</div>
+        </div>
+      </div>
+
+      <!-- Editor Area -->
+      <div class="ide-editor-area">
+        <!-- Tabs -->
+        <div class="ide-tab-bar" id="ideTabBar">
+          <div class="ide-tab active" data-file="digital_twin_bridge.py">
+            <span>🐍 digital_twin_bridge.py</span>
+            <span class="ide-tab-close">×</span>
+          </div>
+        </div>
+
+        <!-- Code Input / Editor Wrapper -->
+        <div class="ide-code-wrapper" id="ideCodeWrapper">
+          <textarea class="ide-textarea" id="ideCodeEditor" spellcheck="false" aria-label="Code Editor"></textarea>
+        </div>
+
+        <!-- Terminal & Compiler Output -->
+        <div class="ide-terminal">
+          <div class="ide-terminal-header">
+            <div style="display:flex;gap:12px">
+              <span style="color:#f0f6fc;font-weight:700">TERMINAL</span>
+              <span style="color:#8b949e">COMPILER</span>
+              <span style="color:#8b949e">OUTPUT</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:10px;color:#7ee787" id="ideRuntimeStatus">● Browser Runtime Ready</span>
+              <button class="ide-btn" id="btnIdeClearTerm" style="padding:2px 8px;font-size:10px">Clear</button>
+            </div>
+          </div>
+          <div class="ide-terminal-output" id="ideTerminalOutput">
+[Aero Studio] Initialized browser workspace runtime
+[Workspace] 7 files loaded into in-memory VFS (Virtual File System)
+[Bridge] Not connected. Use Bridge to connect ws://127.0.0.1:8888
+[Hardware] Not connected. Use Hardware to request a Web Serial device
+[Compiler] Compile & Run validates the active file and dispatches supported joint commands to URDF, bridge, and hardware.
+> _
+          </div>
+          <div class="ide-terminal-input-bar">
+            <span class="ide-prompt-prefix">$</span>
+            <input id="ideTermInput" class="ide-term-input" placeholder="Type compiler command: 'joints 30 45 60 70 80 85 90', 'explode 50', 'section z 40', 'theme cyberpunk', 'rebuild', 'help'...">
+          </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="ide-statusbar">
+          <div class="ide-status-item">
+            <span>🌿 main</span>
+            <span style="margin-left:8px">● 0 Errors</span>
+            <span style="margin-left:8px">▲ 0 Warnings</span>
+          </div>
+          <div class="ide-status-item">
+            <span id="ideCursorPos">Ln 1, Col 1</span>
+            <span style="margin-left:10px">Spaces: 4</span>
+            <span style="margin-left:10px">UTF-8</span>
+            <span style="margin-left:10px" id="ideFileLang">Python</span>
+            <span style="margin-left:10px;color:#a7f3d0">✔ Antigravity Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 10: ROS 2 & TELEOPERATION ━━━━━━━━━━━━━━━━ -->
+<section id="ros2">
+  <span class="eyebrow">Robotics Middleware</span>
+  <h2 class="s-title">ROS 2 <span class="grad">&amp; Teleoperation Suite</span></h2>
+  <p class="s-sub">Built for ROS 2 Humble Hawksbill. Includes low-latency serial hardware bridges, teleoperation retargeting from Manus data gloves or MediaPipe vision, and reinforcement learning policy deployment.</p>
+
+  <div class="pkg-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:24px">
+    <div class="card">
+      <span class="card-lbl">Hardware Driver</span>
+      <div class="card-ttl">aero_hand_open</div>
+      <div class="card-txt">Subscribes to joint and actuator command topics. Streams actuator feedback at 100 Hz.</div>
+      <div style="margin-top:10px;font-size:11px;font-family:var(--mono);color:var(--cyan)">
+        /aero_hand/joint_control<br>
+        /aero_hand/actuator_control<br>
+        /aero_hand/actuator_states
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="card-lbl">Robot Description</span>
+      <div class="card-ttl">aero_hand_open_description</div>
+      <div class="card-txt">Contains left and right URDF kinematics, 44 STL meshes, RViz2 display configs, and launch files.</div>
+      <div style="margin-top:10px;font-size:11px;font-family:var(--mono);color:var(--cyan)">
+        ros2 launch aero_hand_open_description display.launch.py
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="card-lbl">Message Definitions</span>
+      <div class="card-ttl">aero_hand_open_msgs</div>
+      <div class="card-txt">Custom IDL definitions for 16-joint angles, 7 actuator setpoints, telemetry packets, and mocap tracking.</div>
+      <div style="margin-top:10px;font-size:11px;font-family:var(--mono);color:var(--cyan)">
+        JointControl.msg (float64[16])<br>
+        ActuatorControl.msg (float64[7])
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="card-lbl">Teleoperation</span>
+      <div class="card-ttl">aero_hand_open_teleop</div>
+      <div class="card-txt">Retargets human hand motions from Manus Quantum gloves or webcam MediaPipe tracking onto the hand.</div>
+      <div style="margin-top:10px;font-size:11px;font-family:var(--mono);color:var(--cyan)">
+        ros2 launch aero_hand_open_teleop manus_teleop.launch.py
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="card-lbl">Reinforcement Learning Policy Deployment (MuJoCo Playground)</span>
+    <div class="card-ttl" style="margin-bottom:8px">Z-Axis Object Rotation Policy</div>
+    <div class="card-txt" style="line-height:1.65">
+      The repository includes <code>aero_hand_open_rl</code>, implementing a trained policy from <strong>MuJoCo Playground</strong> for in-hand manipulation. Run the communication node in Terminal 1 and deploy the RL policy in Terminal 2:
+    </div>
+    <div class="ex-card" style="margin-top:12px;padding:12px;font-size:12px">
+      # Terminal 1: Hardware bridge<br>
+      ros2 run aero_hand_open aero_hand_node<br><br>
+      # Terminal 2: RL deployment node<br>
+      ros2 run aero_hand_open_rl rl_z_rotation_deploy
+    </div>
+  </div>
+</section>

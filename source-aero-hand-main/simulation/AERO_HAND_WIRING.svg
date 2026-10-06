@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 2400 1700" role="img" aria-labelledby="title desc">
+<title id="title">Aero Hand complete port-to-port wiring plan</title>
+<desc id="desc">Clean white wiring poster: verified Aero hand controller and seven servo bus connections, plus a clearly marked proposed sensor add-on wiring map with board addresses, connector pin names, supply separation and unresolved module variants.</desc>
+<defs>
+ <style>
+ text{font-family:Arial,Helvetica,sans-serif;fill:#17212b}.title{font-size:38px;font-weight:700}.sub{font-size:18px;fill:#52616e}.section{font-size:23px;font-weight:700;fill:#132d45}.head{font-size:18px;font-weight:700}.txt{font-size:15px}.small{font-size:13px;fill:#44515c}.tiny{font-size:11px;fill:#4b5965}.mono{font-family:Consolas,monospace;font-size:14px;font-weight:700}.card{fill:#fff;stroke:#b8c4ce;stroke-width:2}.verified{fill:#f0faf5;stroke:#27845a;stroke-width:2}.proposal{fill:#f5f9ff;stroke:#4478ad;stroke-width:2}.warn{fill:#fff8e9;stroke:#d09018;stroke-width:2}.danger{fill:#fff1f0;stroke:#bb4545;stroke-width:2}.chip{fill:#173b30;stroke:#0b241c;stroke-width:2}.port{fill:#fff;stroke:#435463;stroke-width:1.5}.line{fill:none;stroke:#364654;stroke-width:3}.sig{fill:none;stroke:#1583bb;stroke-width:3}.pwr{fill:none;stroke:#db8b08;stroke-width:4}.gnd{fill:none;stroke:#606c75;stroke-width:3}.i2c{fill:none;stroke:#6843a5;stroke-width:3}.temp{fill:none;stroke:#ca5268;stroke-width:3}.analog{fill:none;stroke:#17836f;stroke-width:3}.dash{stroke-dasharray:9 7}.rule{stroke:#d3dbe1;stroke-width:1.5}
+ </style>
+ <marker id="arrBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1583bb"/></marker>
+ <marker id="arrOrange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#db8b08"/></marker>
+ <marker id="arrPurple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#6843a5"/></marker>
+</defs>
+<rect width="2400" height="1700" fill="#f3f6f8"/>
+<text x="48" y="58" class="title">AERO HAND OPEN · COMPLETE WIRING MAP</text>
+<text x="50" y="91" class="sub">Connector-level reference · verified stock hand + clearly separated proposed sensor add-on · all voltages are DC</text>
+<rect x="1900" y="28" width="450" height="48" rx="8" fill="#e3f3e9" stroke="#27845a"/><text x="1920" y="58" class="txt" font-weight="700" fill="#17643d">GREEN = SOURCE VERIFIED · BLUE = ADD-ON PLAN</text>
+
+<!-- STOCK HAND -->
+<rect x="36" y="120" width="2328" height="535" rx="14" class="verified"/>
+<text x="62" y="158" class="section">1 · STOCK AERO HAND — REPOSITORY / KICAD NETS + FIRMWARE</text>
+<text x="62" y="183" class="small">Signal direction below is from MCU perspective. Seven servo connectors share a half-duplex serial bus; they are not seven PWM outputs.</text>
+
+<!-- Host -->
+<rect x="70" y="225" width="280" height="165" rx="12" class="card"/>
+<text x="92" y="258" class="head">HOST COMPUTER</text><text x="92" y="289" class="txt">USB-C cable → controller XIAO</text><text x="92" y="316" class="txt">Firmware / SDK command link</text><text x="92" y="344" class="small">Stock serial: 921600 baud</text><text x="92" y="370" class="small">USB is not servo power</text>
+<path d="M350 306H430" class="sig" marker-end="url(#arrBlue)"/><text x="360" y="292" class="tiny">USB</text>
+
+<!-- MCU + PCB -->
+<rect x="430" y="210" width="410" height="205" rx="12" class="card"/>
+<text x="452" y="243" class="head">XIAO ESP32-S3 · U3 ON PCB</text>
+<rect x="455" y="260" width="180" height="126" rx="8" class="chip"/><text x="476" y="291" fill="white" class="txt" font-weight="700">ESP32-S3</text>
+<rect x="439" y="286" width="22" height="45" rx="4" fill="#cbd4da" stroke="#76838d"/><text x="468" y="321" fill="white" class="tiny">USB-C</text>
+<rect x="650" y="256" width="168" height="130" rx="8" fill="#d9f0e3" stroke="#27845a"/><text x="663" y="282" class="txt" font-weight="700">UART2</text><text x="663" y="310" class="mono">D2 / GPIO3 · TX</text><text x="663" y="338" class="mono">D1 / GPIO2 · RX</text><text x="663" y="366" class="small">Firmware pins 3 / 2</text>
+
+<rect x="910" y="210" width="600" height="205" rx="12" class="card"/>
+<text x="934" y="243" class="head">AERO CONNECTION PCB · BUS INTERFACE</text><text x="934" y="274" class="txt">U3 GPIO3 / TX → PCB net Servo_RXD (command into interface)</text><text x="934" y="304" class="txt">PCB net Servo_TXD → U3 GPIO2 / RX (feedback to MCU)</text><text x="934" y="334" class="txt">J1–J7 are parallel bus ports: GND · DC6V · Servo_DATA_IN</text><text x="934" y="367" class="small">Use the board silkscreen / schematic for connector viewing orientation.</text>
+<path d="M840 305H900" class="sig" marker-end="url(#arrBlue)"/><text x="847" y="289" class="tiny">UART TX/RX</text>
+
+<!-- power -->
+<rect x="70" y="435" width="420" height="182" rx="12" class="warn"/>
+<text x="92" y="468" class="head">REGULATED SERVO SUPPLY</text><text x="92" y="499" class="mono">6.0 V +  → J8 pad 2 · DC6V</text><text x="92" y="529" class="mono">0 V / − → J8 pad 1 · GND</text><text x="92" y="559" class="txt">PCB J8 pads 3 &amp; 4 = GND shell / anchor pads</text><text x="92" y="587" class="small">Not extra power terminals. Add external rail fuse.</text>
+<path d="M490 506H538V448H1050V424" class="pwr" marker-end="url(#arrOrange)"/><text x="566" y="439" class="tiny" fill="#9b6200">6 V positive to J8 pad 2 only</text>
+<path d="M490 574H560V468H1070V424" class="gnd"/><text x="600" y="489" class="tiny">Supply 0 V common to PCB GND</text>
+
+<!-- J8 / port map -->
+<rect x="910" y="435" width="600" height="182" rx="12" class="card"/>
+<text x="934" y="468" class="head">J8 · XT30 POWER CONNECTOR / BOARD PADS</text>
+<rect x="941" y="486" width="120" height="28" class="port"/><text x="950" y="505" class="mono">PAD 1 · GND</text>
+<rect x="1073" y="486" width="145" height="28" class="port"/><text x="1082" y="505" class="mono">PAD 2 · +6V</text>
+<rect x="1230" y="486" width="125" height="28" class="port"/><text x="1238" y="505" class="mono">PAD 3 · GND</text>
+<rect x="1367" y="486" width="125" height="28" class="port"/><text x="1375" y="505" class="mono">PAD 4 · GND</text>
+<text x="934" y="544" class="txt">Servo rail enters board here; board distributes DC6V/GND to J1–J7.</text><text x="934" y="575" class="small">PCB F1 = 100 mA signal-path fuse; it is NOT the servo power fuse.</text>
+
+<!-- seven ports each show all pins -->
+<rect x="1550" y="210" width="780" height="407" rx="12" class="card"/>
+<text x="1574" y="243" class="head">J1–J7 · EACH 3-PIN SERVO SOCKET · EXACT NET ORDER</text>
+<text x="1578" y="272" class="small">Connector pad</text><text x="1790" y="272" class="small">Net / wire destination</text><text x="2150" y="272" class="small">Servo instance (IDs 0–6)</text>
+<path d="M1575 282H2305" class="rule"/>
+<g class="txt">
+ <text x="1580" y="310">J1 pad 1</text><text x="1742" y="310" font-weight="700">GND</text><text x="2145" y="310">Servo ID 0</text>
+ <text x="1580" y="338">J1 pad 2</text><text x="1742" y="338" font-weight="700" fill="#a66a00">DC6V</text><text x="2145" y="338">same connector</text>
+ <text x="1580" y="366">J1 pad 3</text><text x="1742" y="366" font-weight="700" fill="#0874a8">Servo_DATA_IN</text><text x="2145" y="366">shared bus</text>
+ <text x="1580" y="397">J2 pads 1/2/3</text><text x="1742" y="397" font-weight="700">GND / DC6V / DATA</text><text x="2145" y="397">Servo ID 1</text>
+ <text x="1580" y="426">J3 pads 1/2/3</text><text x="1742" y="426" font-weight="700">GND / DC6V / DATA</text><text x="2145" y="426">Servo ID 2</text>
+ <text x="1580" y="455">J4 pads 1/2/3</text><text x="1742" y="455" font-weight="700">GND / DC6V / DATA</text><text x="2145" y="455">Servo ID 3</text>
+ <text x="1580" y="484">J5 pads 1/2/3</text><text x="1742" y="484" font-weight="700">GND / DC6V / DATA</text><text x="2145" y="484">Servo ID 4</text>
+ <text x="1580" y="513">J6 pads 1/2/3</text><text x="1742" y="513" font-weight="700">GND / DC6V / DATA</text><text x="2145" y="513">Servo ID 5</text>
+ <text x="1580" y="542">J7 pads 1/2/3</text><text x="1742" y="542" font-weight="700">GND / DC6V / DATA</text><text x="2145" y="542">Servo ID 6</text>
+</g>
+<text x="1578" y="581" class="small">Assign physical finger/thumb locations from the assembly harness; the bus does not encode socket-specific motion.</text>
+
+<!-- sensor add-on -->
+<rect x="36" y="680" width="2328" height="760" rx="14" class="proposal"/>
+<text x="62" y="720" class="section">2 · SENSOR ADD-ON — PROPOSED PORT MAP, NOT STOCK FIRMWARE</text>
+<text x="62" y="747" class="small">Separate Sensor XIAO ESP32-S3 + separate USB connection. This board and these sensor connections are additions; verify each breakout silkscreen and voltage before assembly.</text>
+
+<!-- sensor xiao pinout -->
+<rect x="65" y="780" width="535" height="605" rx="12" class="card"/>
+<text x="88" y="816" class="head">SENSOR XIAO ESP32-S3 · BREAKOUT PINS</text>
+<text x="88" y="844" class="small">Dedicated sensor MCU · USB-C to host · shared 3.3 V logic</text>
+<rect x="220" y="864" width="230" height="480" rx="20" fill="#e6edf2" stroke="#526575" stroke-width="2"/><rect x="275" y="884" width="120" height="68" rx="8" class="chip"/><text x="288" y="924" fill="white" class="txt" font-weight="700">ESP32-S3</text><rect x="294" y="1333" width="82" height="18" rx="5" fill="#9baab4"/>
+<g class="tiny">
+ <rect x="92" y="876" width="128" height="28" class="port"/><text x="101" y="895">D0 / GPIO1</text><path d="M220 890H272" class="sig"/><text x="458" y="895">HX1 DOUT</text>
+ <rect x="92" y="916" width="128" height="28" class="port"/><text x="101" y="935">D1 / GPIO2</text><path d="M220 930H272" class="sig"/><text x="458" y="935">HX1 SCK</text>
+ <rect x="92" y="956" width="128" height="28" class="port"/><text x="101" y="975">D2 / GPIO3</text><path d="M220 970H272" class="temp"/><text x="458" y="975">DS18B20 DQ</text>
+ <rect x="92" y="996" width="128" height="28" class="port"/><text x="101" y="1015">D3 / GPIO4</text><path d="M220 1010H272" class="sig"/><text x="458" y="1015">MCP INTA (opt.)</text>
+ <rect x="92" y="1036" width="128" height="28" class="port"/><text x="101" y="1055">D4 / GPIO5 SDA</text><path d="M220 1050H272" class="i2c"/><text x="458" y="1055">I²C SDA</text>
+ <rect x="92" y="1076" width="128" height="28" class="port"/><text x="101" y="1095">D5 / GPIO6 SCL</text><path d="M220 1090H272" class="i2c"/><text x="458" y="1095">I²C SCL</text>
+ <rect x="92" y="1116" width="128" height="28" class="port"/><text x="101" y="1135">D6 / GPIO43</text><path d="M220 1130H272" class="sig"/><text x="458" y="1135">HX2 DOUT</text>
+ <rect x="92" y="1156" width="128" height="28" class="port"/><text x="101" y="1175">D7 / GPIO44</text><path d="M220 1170H272" class="sig"/><text x="458" y="1175">HX2 SCK</text>
+ <rect x="92" y="1196" width="128" height="28" class="port"/><text x="101" y="1215">D8 / GPIO7</text><text x="458" y="1215">spare</text>
+ <rect x="92" y="1236" width="128" height="28" class="port"/><text x="101" y="1255">D9 / GPIO8</text><text x="458" y="1255">spare</text>
+ <rect x="92" y="1276" width="128" height="28" class="port"/><text x="101" y="1295">D10 / GPIO9</text><text x="458" y="1295">spare</text>
+</g>
+<text x="88" y="1365" class="tiny">I²C pins per Seeed XIAO ESP32-S3 pin map. Keep sensors off stock servo MCU unless firmware is changed.</text>
+
+<!-- i2c sensor bus -->
+<rect x="625" y="780" width="775" height="280" rx="12" class="card"/>
+<text x="650" y="816" class="head">I²C BUS · XIAO D4/SDA + D5/SCL · 3.3 V</text>
+<rect x="650" y="838" width="215" height="196" rx="9" fill="#f1ebfa" stroke="#6843a5" stroke-width="2"/>
+<text x="668" y="870" class="txt" font-weight="700">SDA · GPIO5 / D4</text><text x="668" y="899" class="txt" font-weight="700">SCL · GPIO6 / D5</text><text x="668" y="928" class="txt">3V3 · VCC (3V3-safe)</text><text x="668" y="957" class="txt">GND · common logic ground</text><text x="668" y="986" class="small">Pull-ups only to 3.3 V</text>
+<path d="M865 880H900V866H1368M900 866V974H1368" class="i2c"/>
+<rect x="920" y="838" width="210" height="196" rx="9" class="port"/><text x="938" y="870" class="txt" font-weight="700">ADS1115 ×3</text><text x="938" y="899" class="mono">ADDR: 0x48</text><text x="938" y="926" class="small">ADDR → GND</text><text x="938" y="954" class="small">VDD 3V3 · GND</text><text x="938" y="982" class="small">SDA / SCL · ALERT NC</text>
+<rect x="1145" y="838" width="230" height="196" rx="9" class="port"/><text x="1163" y="870" class="txt" font-weight="700">ADS1115 #2 / #3</text><text x="1163" y="899" class="mono">#2 0x49: ADDR→VDD</text><text x="1163" y="926" class="mono">#3 0x4A: ADDR→SDA</text><text x="1163" y="954" class="small">All VDD=3V3, VSS=GND</text><text x="1163" y="982" class="small">All share SDA/SCL</text>
+
+<!-- ADC FSR channel assignments -->
+<rect x="1425" y="780" width="905" height="280" rx="12" class="card"/>
+<text x="1450" y="816" class="head">9 × FSR402 → ADC INPUTS · ONE DIVIDER PER SENSOR</text>
+<text x="1450" y="848" class="small">For each FSR: 3V3 → FSR → node → ADS AINx; node → 10 kΩ → GND. ADS VDD=3V3, GND=logic GND.</text>
+<g class="txt"><text x="1450" y="887" font-weight="700">ADS #1 · 0x48</text><text x="1450" y="916">A0 FSR01  ·  A1 FSR02  ·  A2 FSR03  ·  A3 FSR04</text><text x="1450" y="951" font-weight="700">ADS #2 · 0x49</text><text x="1450" y="980">A0 FSR05  ·  A1 FSR06  ·  A2 FSR07  ·  A3 FSR08</text><text x="1870" y="887" font-weight="700">ADS #3 · 0x4A</text><text x="1870" y="916">A0 FSR09 · A1–A3 unused</text><text x="1870" y="951">ALERT/RDY · NC (not connected)</text><text x="1870" y="980">Each unused analog input left unconnected</text></g>
+<rect x="1450" y="1000" width="850" height="42" rx="6" class="warn"/><text x="1464" y="1027" class="small">Do not exceed ADS input supply range; calibrate FSRs (resistance response is nonlinear).</text>
+
+<!-- temp + hx/load cells -->
+<rect x="625" y="1080" width="775" height="305" rx="12" class="card"/>
+<text x="650" y="1116" class="head">TEMPERATURE + FORCE BRIDGES · DEDICATED PORTS</text>
+<rect x="650" y="1140" width="355" height="220" rx="9" class="port"/><text x="670" y="1173" class="txt" font-weight="700">DS18B20 ×4 · SHARED 1-WIRE</text><text x="670" y="1205" class="mono">DQ → D2 / GPIO3</text><text x="670" y="1235" class="txt">4.7 kΩ pull-up: DQ ↔ 3V3</text><text x="670" y="1265" class="txt">VDD → 3V3 · GND → GND</text><text x="670" y="1295" class="small">Probe variants: confirm lead labels.</text><text x="670" y="1324" class="small">Each sensor has a unique ROM ID.</text>
+<rect x="1025" y="1140" width="350" height="220" rx="9" class="port"/><text x="1044" y="1173" class="txt" font-weight="700">HX711 ×2 · ONE PER LOAD CELL</text><text x="1044" y="1205" class="mono">HX1 DOUT→D0 · SCK→D1</text><text x="1044" y="1235" class="mono">HX2 DOUT→D6 · SCK→D7</text><text x="1044" y="1265" class="txt">VCC→3V3* · GND→common</text><text x="1044" y="1295" class="small">Load-cell bridge: E+, E−, A+, A−</text><text x="1044" y="1324" class="small">Use datasheet labels; never infer wire colors.</text>
+
+<!-- mux and imu -->
+<rect x="1425" y="1080" width="905" height="305" rx="12" class="card"/>
+<text x="1450" y="1116" class="head">OPTIONAL I²C EXPANSION · IMUs + PROXIMITY</text>
+<rect x="1450" y="1140" width="395" height="220" rx="9" class="port"/><text x="1468" y="1173" class="txt" font-weight="700">TCA9548A MUX (optional) · 0x70</text><text x="1468" y="1204" class="txt">VIN→3V3 · GND · SDA · SCL</text><text x="1468" y="1233" class="txt">A0/A1/A2→GND (default address)</text><text x="1468" y="1262" class="txt">RESET→3V3 · common bus upstream</text><text x="1468" y="1291" class="small">SD0/SC0 → GY-9250 #1 SDA/SCL</text><text x="1468" y="1320" class="small">SD1/SC1 → GY-9250 #2 SDA/SCL</text><text x="1468" y="1345" class="tiny">Breakout power / pull-ups: check module revision.</text>
+<rect x="1865" y="1140" width="435" height="220" rx="9" class="port"/><text x="1884" y="1173" class="txt" font-weight="700">MCP23017 · 0x20 · DIGITAL IR OPTION</text><text x="1884" y="1204" class="txt">VDD→3V3 · VSS→GND · SDA/SCL→I²C</text><text x="1884" y="1233" class="txt">A0/A1/A2→GND · RESET→3V3</text><text x="1884" y="1262" class="txt">IR digital OUT1–4→GPA0–GPA3</text><text x="1884" y="1291" class="small">INTA→D3/GPIO4 optional · INTA/INTB otherwise NC</text><text x="1884" y="1320" class="small">If IR outputs are analog: not this connection.</text><text x="1884" y="1345" class="tiny">Check each IR module’s output voltage and pin labels.</text>
+
+<!-- footer warning -->
+<rect x="36" y="1465" width="2328" height="195" rx="14" class="warn"/>
+<text x="62" y="1505" class="section" fill="#855800">3 · POWER / VALIDATION RULES BEFORE CONNECTING</text>
+<text x="70" y="1541" class="txt">• Keep servo rail at regulated 6 V and separate from sensor 3.3 V logic; join grounds at controller/star return. Do not route motor current through sensor ground wires.</text>
+<text x="70" y="1571" class="txt">• Seven servos can demand about 9.1 A combined at stall (1.3 A each); size the supply, external fuse, connectors and wire for the actual load. PCB F1 (100 mA) is not the servo fuse.</text>
+<text x="70" y="1601" class="txt">• DRI0057 is a 9–12.6 V driver and is not for the 6 V hand servos. Never feed 5 V signals to XIAO GPIO / ADS inputs. No 5 V rail backfeed to XIAO 3V3.</text>
+<text x="70" y="1631" class="txt">• IR sensor SKU/output and breakout pinouts remain unknown; analog IR needs another ADS1115 at 0x4B (ADDR→SCL) or a confirmed 3.3 V ADC path. Test without servos first.</text>
+<text x="70" y="1654" class="tiny">Status: stock hand nets are repository-based; add-on mapping is an electrically planned topology, not bench-tested. Verify board silkscreen, datasheets, fuse/current, polarity, and firmware before power-on.</text>
+</svg>

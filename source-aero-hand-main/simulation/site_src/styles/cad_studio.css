@@ -1,0 +1,557 @@
+/* ============================================================
+   AERO HAND OPEN — 3D CAD STUDIO STYLES
+   Embedded Parametric STEP Modeler & B-Rep Topology Viewport
+   ============================================================ */
+
+.cad-stage-container {
+  display: flex;
+  flex-direction: column;
+  background: rgba(6, 12, 22, 0.94);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 1px rgba(0, 240, 255, 0.25);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cad-workbench-layout {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+  height: calc(100vh - 72px);
+  min-height: 520px;
+}
+
+.cad-workbench-layout.cad-static-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#cad-viewer {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cad-stage-container.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  border-radius: 0;
+  border: none;
+}
+
+/* ── STAGE TOPBAR & MODEL SWITCHER ── */
+.cad-stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 12px 18px;
+  background: rgba(4, 9, 18, 0.96);
+  border-bottom: 1px solid var(--border);
+}
+
+.cad-stage-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cad-stage-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.cad-stage-label::before {
+  content: '▸ ';
+  opacity: 0.7;
+}
+
+.cad-model-switcher {
+  display: inline-flex;
+  background: rgba(10, 20, 36, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.cad-model-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.cad-model-btn:hover {
+  color: #fff;
+  background: rgba(56, 189, 248, 0.08);
+  border-color: var(--border);
+}
+
+.cad-model-btn.active {
+  color: #040c18;
+  background: var(--cyan);
+  border-color: var(--cyan);
+  font-weight: 750;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.4);
+}
+
+.cad-stage-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cad-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cad-tool-btn:hover {
+  color: #fff;
+  border-color: var(--cyan);
+  background: rgba(0, 240, 255, 0.1);
+  text-decoration: none;
+}
+
+/* ── STAGE VIEWPORT & IFRAME ── */
+.cad-stage-viewport {
+  position: relative;
+  width: 100%;
+  height: auto;
+  flex: 1;
+  background: #030710;
+  overflow: hidden;
+}
+
+.cad-stage-container.fullscreen .cad-stage-viewport {
+  height: calc(100vh - 100px);
+}
+
+.cad-stage-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #030710;
+}
+
+.urdf-simulation-viewport {
+  position: absolute;
+  inset: 0;
+  background: #172630;
+  filter: brightness(0.9) contrast(1.12);
+}
+
+.urdf-simulation-viewport[hidden] {
+  display: none;
+}
+
+.urdf-simulation-viewport canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.urdf-simulation-toolbar {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  right: 14px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #d8e8ee;
+  font-family: var(--mono);
+  font-size: 10px;
+  pointer-events: none;
+}
+
+/* ── STAGE FOOTER & NAVIGATION HINTS ── */
+.cad-stage-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 10px 18px;
+  background: rgba(4, 9, 18, 0.96);
+  border-top: 1px solid var(--border);
+}
+
+.cad-stage-hints {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.cad-hint-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.cad-hint-item kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--cyan);
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.cad-stage-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── LEFT HAND CONTROL RAIL ── */
+.cad-control-panel {
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 12px 30px rgba(35, 76, 103, 0.08);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  overflow: hidden;
+}
+
+.cad-control-section {
+  display: grid;
+  gap: 13px;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.cad-control-section[hidden] {
+  display: none;
+}
+
+.cad-mode-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: rgba(8, 127, 157, 0.05);
+}
+
+.cad-mode-btn {
+  min-height: 32px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--muted);
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cad-mode-btn.active {
+  color: #ffffff;
+  background: var(--cyan);
+  box-shadow: 0 6px 16px rgba(8, 127, 157, 0.18);
+}
+
+.cad-control-section-title {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cad-control-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.cad-webcam-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.cad-webcam-viewport {
+  position: relative;
+  height: 132px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0b1623;
+}
+
+.cad-webcam-viewport video,
+.cad-webcam-viewport canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cad-webcam-viewport canvas {
+  pointer-events: none;
+}
+
+.cad-webcam-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  color: #dbeafe;
+  font-size: 22px;
+  text-align: center;
+}
+
+.cad-webcam-placeholder strong {
+  font-family: var(--font-display);
+  font-size: 11px;
+}
+
+.cad-webcam-placeholder span {
+  color: #9fb3c7;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.cad-webcam-live-status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  color: #dbeafe;
+  background: rgba(5, 13, 26, 0.72);
+  border-radius: 99px;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.cad-webcam-live-status span:first-child {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #64748b;
+}
+
+.cad-webcam-live-status span:first-child.active {
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.16);
+}
+
+.cad-webcam-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.cad-control-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.cad-control-grid {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.8fr) minmax(220px, 1fr) minmax(220px, 1fr);
+  gap: 14px;
+  align-items: end;
+}
+
+.cad-control-group {
+  display: grid;
+  gap: 7px;
+}
+
+.cad-control-group label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cad-control-group output {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.cad-control-input {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+}
+
+.cad-control-range {
+  width: 100%;
+  accent-color: var(--cyan);
+}
+
+.cad-control-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 2px;
+}
+
+@media (max-width: 960px) {
+  #cad-viewer {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .cad-workbench-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .cad-control-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cad-control-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .cad-control-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .cad-stage-viewport {
+    height: 520px;
+  }
+  .cad-stage-header,
+  .cad-stage-footer {
+    padding: 10px 14px;
+  }
+}
+
+/* ── ENGINE CONNECTION OVERLAY ── */
+.cad-engine-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 15, 30, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 24px;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.cad-engine-overlay[hidden] {
+  display: none !important;
+}
+
+.cad-engine-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(8, 127, 157, 0.2);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: cadSpin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes cadSpin {
+  to { transform: rotate(360deg); }
+}
+
+.cad-engine-msg {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 6px;
+  font-family: var(--font-display, inherit);
+}
+
+.cad-engine-submsg {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 380px;
+  line-height: 1.5;
+}
+

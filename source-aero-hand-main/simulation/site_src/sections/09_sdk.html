@@ -1,0 +1,93 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 9: PYTHON SDK ━━━━━━━━━━━━━━━━ -->
+<section id="sdk">
+  <span class="eyebrow">High-Level Robotics API</span>
+  <h2 class="s-title">Python <span class="grad">SDK &amp; Control</span></h2>
+  <p class="s-sub">Clean, idiomatic Python library for controlling the Aero Hand Open. Includes kinematic forward/inverse mapping, trajectory smoothing, live telemetry, and an interactive calibration GUI.</p>
+
+  <div class="g3" style="margin-bottom:24px">
+    <div class="card">
+      <span class="card-lbl">Package Install</span>
+      <div class="ex-card" style="padding:10px;font-size:12px;margin-top:8px">
+        <code>pip install aero-open-sdk</code>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-lbl">Launch Calibration GUI</span>
+      <div class="ex-card" style="padding:10px;font-size:12px;margin-top:8px">
+        <code>aero-open-gui</code>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-lbl">Install from Local Source</span>
+      <div class="ex-card" style="padding:10px;font-size:12px;margin-top:8px">
+        <code>cd sdk &amp;&amp; pip install -e .</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:24px">
+    <div class="card ex-card">
+      <div class="ex-head"><span>Basic Position Control</span><small>sdk/examples/joint_control.py</small></div>
+      <pre class="ex-body"><span class="kw">from</span> aero_open_sdk.aero_hand <span class="kw">import</span> AeroHand
+
+<span class="cm"># Connect via USB serial (COM3 on Windows, /dev/ttyACM0 on Linux)</span>
+hand = <span class="fn">AeroHand</span>(port=<span class="st">"COM3"</span>, baudrate=921600)
+
+<span class="cm"># Run homing routine (required on initial startup)</span>
+hand.<span class="fn">send_homing</span>()
+
+<span class="cm"># Command 7 joint angles in degrees:</span>
+<span class="cm"># [thumb_abd, thumb_flex, thumb_mcp, index, middle, ring, pinky]</span>
+hand.<span class="fn">set_joint_positions</span>([45.0, 25.0, 40.0, 75.0, 75.0, 75.0, 75.0])
+
+<span class="cm"># Read back live telemetry</span>
+currents = hand.<span class="fn">get_actuator_currents</span>()
+<span class="fn">print</span>(<span class="st">"Actuator currents (mA):"</span>, currents)
+
+hand.<span class="fn">close</span>()</pre>
+    </div>
+
+    <div class="card ex-card">
+      <div class="ex-head"><span>Trajectory Playback at 100 Hz</span><small>sdk/examples/run_sequence.py</small></div>
+      <pre class="ex-body"><span class="kw">from</span> aero_open_sdk.aero_hand <span class="kw">import</span> AeroHand
+
+hand = <span class="fn">AeroHand</span>(port=<span class="st">"COM3"</span>)
+
+<span class="cm"># Define keyframes: (7-dof pose degrees, duration seconds)</span>
+gestures = [
+    ([0, 0, 0, 0, 0, 0, 0],         0.8),  <span class="cm"># Open palm</span>
+    ([45, 30, 50, 80, 80, 80, 80],   1.2),  <span class="cm"># Full power grasp</span>
+    ([10, 10, 10, 20, 0, 0, 0],      1.0),  <span class="cm"># Peace sign</span>
+    ([0, 0, 0, 0, 0, 0, 0],         0.8),  <span class="cm"># Reset</span>
+]
+
+<span class="cm"># Executes cubic/linear spline interpolation smoothly</span>
+hand.<span class="fn">run_trajectory</span>(gestures)
+hand.<span class="fn">close</span>()</pre>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Joint Ranges &amp; Hardware Limits</h3>
+  <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="background:rgba(242,248,251,.94);border-bottom:1px solid var(--border);color:var(--muted)">
+          <th style="padding:10px 14px;text-align:left">Joint Name</th>
+          <th style="padding:10px 14px;text-align:left">Actuator Index</th>
+          <th style="padding:10px 14px;text-align:left">Min Angle</th>
+          <th style="padding:10px 14px;text-align:left">Max Angle</th>
+          <th style="padding:10px 14px;text-align:left">Motion Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Thumb CMC Abduction</td><td style="padding:8px 14px">CH0</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">100.0°</td><td style="padding:8px 14px">Lateral splay</td></tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Thumb CMC Flexion</td><td style="padding:8px 14px">CH1</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">55.0°</td><td style="padding:8px 14px">Forward opposition</td></tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Thumb MCP &amp; IP</td><td style="padding:8px 14px">CH2</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">90.0°</td><td style="padding:8px 14px">Coupled tendon curl</td></tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Index Finger Curl</td><td style="padding:8px 14px">CH3</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">90.0°</td><td style="padding:8px 14px">MCP + PIP + DIP coupled</td></tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Middle Finger Curl</td><td style="padding:8px 14px">CH4</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">90.0°</td><td style="padding:8px 14px">MCP + PIP + DIP coupled</td></tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Ring Finger Curl</td><td style="padding:8px 14px">CH5</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">90.0°</td><td style="padding:8px 14px">MCP + PIP + DIP coupled</td></tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)"><td style="padding:8px 14px">Pinky Finger Curl</td><td style="padding:8px 14px">CH6</td><td style="padding:8px 14px">0.0°</td><td style="padding:8px 14px">90.0°</td><td style="padding:8px 14px">MCP + PIP + DIP coupled</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

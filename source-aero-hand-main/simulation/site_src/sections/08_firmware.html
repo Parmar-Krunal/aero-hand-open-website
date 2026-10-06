@@ -1,0 +1,125 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 8: FIRMWARE & PROTOCOL ━━━━━━━━━━━━━━━━ -->
+<section id="firmware">
+  <span class="eyebrow">Embedded MCU Software</span>
+  <h2 class="s-title">Firmware <span class="grad">&amp; Communication Protocol</span></h2>
+  <p class="s-sub">Dual-core FreeRTOS firmware running on Seeed XIAO ESP32-S3. Manages high-speed host USB framing (921,600 baud), half-duplex servo bus arbitration (1 Mbps), non-volatile calibration, and FSR sensor streaming.</p>
+
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">16-Byte Serial Frame Format (Click Byte to Inspect)</h3>
+  <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:16px;overflow-x:auto;margin-bottom:24px">
+    <div style="display:flex;gap:6px;min-width:640px;align-items:center" id="protocolFrameContainer">
+      <div class="protocol-byte-box" data-byte-name="Opcode" data-byte-desc="0x11 = Standard Kinematic Joint Command packet. Broadcasts target setpoints to Feetech servo bus." style="cursor:pointer;background:rgba(93,228,228,.15);border:1px solid var(--cyan);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:14px;color:var(--cyan);font-weight:700">0x11</div>
+        <div style="font-size:9.5px;color:var(--muted)">Opcode</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="Reserved" data-byte-desc="0x00 = Reserved header byte for protocol versioning and synchronization." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:14px;color:var(--muted)">0x00</div>
+        <div style="font-size:9.5px;color:var(--muted)">Reserved</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH0_L / Thumb Abd" data-byte-desc="Low byte of 12-bit angle command for Servo 0 (Thumb Abduction). Range: 0–4095." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH0_L</div>
+        <div style="font-size:9.5px;color:var(--muted)">Thumb Abd</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH0_H / Thumb High" data-byte-desc="High byte of 12-bit angle command for Servo 0 (Thumb Abduction)." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH0_H</div>
+        <div style="font-size:9.5px;color:var(--muted)">High Byte</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH1_L/H / Thumb Flex" data-byte-desc="Channel 1 16-bit word: Thumb Flexion tendon spool displacement." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH1_L/H</div>
+        <div style="font-size:9.5px;color:var(--muted)">Thumb Flex</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH2_L/H / Thumb MCP" data-byte-desc="Channel 2 16-bit word: Thumb Metacarpophalangeal lateral swivel angle." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH2_L/H</div>
+        <div style="font-size:9.5px;color:var(--muted)">Thumb MCP</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH3_L/H / Index" data-byte-desc="Channel 3 16-bit word: Index finger tendon tension and proximal pitch." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH3_L/H</div>
+        <div style="font-size:9.5px;color:var(--muted)">Index</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH4_L/H / Middle" data-byte-desc="Channel 4 16-bit word: Middle finger articulation drive." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH4_L/H</div>
+        <div style="font-size:9.5px;color:var(--muted)">Middle</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH5_L/H / Ring" data-byte-desc="Channel 5 16-bit word: Ring finger flexion actuator command." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH5_L/H</div>
+        <div style="font-size:9.5px;color:var(--muted)">Ring</div>
+      </div>
+      <div class="protocol-byte-box" data-byte-name="CH6_L/H / Pinky" data-byte-desc="Channel 6 16-bit word: Pinky digit tendon spool displacement." style="cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:8px 12px;border-radius:8px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px">CH6_L/H</div>
+        <div style="font-size:9.5px;color:var(--muted)">Pinky</div>
+      </div>
+    </div>
+    <div id="protocolByteDetail" style="margin-top:12px;padding:10px 14px;border-radius:8px;background:rgba(8,127,157,0.06);font-size:12px;color:var(--ink);display:flex;align-items:center;gap:10px">
+      <span>🔍 <strong>Byte Inspector:</strong> Click any byte in the frame above to inspect its protocol register and bitfield role.</span>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Supported Protocol Opcodes</h3>
+  <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="background:rgba(242,248,251,.94);border-bottom:1px solid var(--border);color:var(--muted)">
+          <th style="padding:10px 14px;text-align:left">Opcode</th>
+          <th style="padding:10px 14px;text-align:left">Name</th>
+          <th style="padding:10px 14px;text-align:left">Direction</th>
+          <th style="padding:10px 14px;text-align:left">Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+          <td style="padding:8px 14px;font-family:var(--mono);color:var(--cyan)">0x01</td>
+          <td style="padding:8px 14px;font-weight:600">CMD_HOMING</td>
+          <td style="padding:8px 14px"><span class="pill pill-c">Host → ESP</span></td>
+          <td style="padding:8px 14px">Executes full 7-servo homing routine; saves endpoints in NVS.</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+          <td style="padding:8px 14px;font-family:var(--mono);color:var(--cyan)">0x02</td>
+          <td style="padding:8px 14px;font-weight:600">CMD_SET_ID</td>
+          <td style="padding:8px 14px"><span class="pill pill-c">Host → ESP</span></td>
+          <td style="padding:8px 14px">Scans bus and programs servo IDs (0 to 6) and current limits.</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+          <td style="padding:8px 14px;font-family:var(--mono);color:var(--cyan)">0x11</td>
+          <td style="padding:8px 14px;font-weight:600">CTRL_POS</td>
+          <td style="padding:8px 14px"><span class="pill pill-c">Host → ESP</span></td>
+          <td style="padding:8px 14px">Sends 7 position setpoints (0–65535 mapped to calibrated servo range).</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+          <td style="padding:8px 14px;font-family:var(--mono);color:var(--cyan)">0x12</td>
+          <td style="padding:8px 14px;font-weight:600">CTRL_TOR</td>
+          <td style="padding:8px 14px"><span class="pill pill-c">Host → ESP</span></td>
+          <td style="padding:8px 14px">Commands torque/current mode for direct compliance control.</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+          <td style="padding:8px 14px;font-family:var(--mono);color:var(--cyan)">0x22</td>
+          <td style="padding:8px 14px;font-weight:600">GET_POS</td>
+          <td style="padding:8px 14px"><span class="pill pill-g">ESP → Host</span></td>
+          <td style="padding:8px 14px">Returns 7 normalized actuator positions in little-endian uint16.</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(93,228,228,.06)">
+          <td style="padding:8px 14px;font-family:var(--mono);color:var(--cyan)">0x24</td>
+          <td style="padding:8px 14px;font-weight:600">GET_CURR</td>
+          <td style="padding:8px 14px"><span class="pill pill-g">ESP → Host</span></td>
+          <td style="padding:8px 14px">Returns 7 actuator currents (signed integer, 1 unit = 6.5 mA).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <span class="card-lbl">Pre-compiled Firmware Binaries</span>
+      <div class="card-txt" style="margin-bottom:14px">Flash directly via esptool.py without compiling in Arduino IDE.</div>
+      <div class="btn-group">
+        <a class="btn btn-p" href="../firmware/main/bin/firmware_v0.1.0_righthand.bin" download>⬇ Right Hand Binary</a>
+        <a class="btn" href="../firmware/main/bin/firmware_v0.1.0_lefthand.bin" download>⬇ Left Hand Binary</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-lbl">FSR Tactile Sensor Sketch</span>
+      <div class="card-txt" style="margin-bottom:14px">Arduino sketch for reading 5 analog force sensors at 50 Hz.</div>
+      <div class="btn-group">
+        <a class="btn" href="../firmware/fsr_sensor/aero_hand_fsr_sensor.ino" target="_blank">📄 View Arduino Sketch ↗</a>
+      </div>
+    </div>
+  </div>
+</section>

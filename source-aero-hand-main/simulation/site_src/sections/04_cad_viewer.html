@@ -1,0 +1,68 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 4: 3D CAD STUDIO ━━━━━━━━━━━━━━━━ -->
+<section id="cad-viewer">
+  <!-- ── UNIFIED CAD CONTROL + VIEWER WORKBENCH ── -->
+  <div class="cad-workbench-layout cad-static-layout">
+    <div class="cad-stage-container" id="cadStageWrapper">
+    <!-- Top Stage Header & Model Switcher -->
+    <div class="cad-stage-header">
+      <div class="cad-stage-left">
+        <span class="cad-stage-label">Active CAD Model:</span>
+        <div class="cad-model-switcher">
+          <button class="cad-model-btn active" id="btnSelectRightStep" title="Load Right Hand STEP Model">
+            🦾 Aero_Hand_Open_Right.step
+          </button>
+          <button class="cad-model-btn" id="btnSelectLeftStep" title="Load Left Hand STEP Model">
+            🦾 Aero_Hand_Open_Left.step
+          </button>
+        </div>
+      </div>
+
+      <div class="cad-stage-actions">
+        <button class="cad-tool-btn" id="btnReloadCadViewer" title="Reload active CAD model">
+          <span>🔄</span> Reload
+        </button>
+        <a href="http://127.0.0.1:3245/?file=Aero_Hand_Open_Right.step" target="_blank" rel="noopener" class="cad-tool-btn" id="btnCadOpenStandalone" title="Open CAD Viewer in dedicated browser tab">
+          <span>↗</span> Open Standalone
+        </a>
+        <button class="cad-tool-btn" id="btnCadFullscreen" title="Toggle Fullscreen 3D View">
+          <span>⛶</span> Fullscreen
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Controls Bar -->
+    <div class="cad-quick-toolbar" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 16px;background:rgba(255,255,255,0.78);border-bottom:1px solid var(--border);font-size:12px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-weight:600;color:var(--muted);margin-right:2px">Camera:</span>
+        <button class="btn" id="btnCamIso" style="padding:3px 8px;font-size:11px">Isometric</button>
+        <button class="btn" id="btnCamFront" style="padding:3px 8px;font-size:11px">Front</button>
+        <button class="btn" id="btnCamTop" style="padding:3px 8px;font-size:11px">Top</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-weight:600;color:var(--muted);margin-right:2px">Material:</span>
+        <button class="btn" id="btnMatCarbon" style="padding:3px 8px;font-size:11px;background:#1e293b;color:#f8fafc">Carbon Black</button>
+        <button class="btn" id="btnMatOrange" style="padding:3px 8px;font-size:11px;background:#ea580c;color:#fff">Prusa Orange</button>
+        <button class="btn" id="btnMatCyan" style="padding:3px 8px;font-size:11px;background:#087f9d;color:#fff">Cyber Cyan</button>
+      </div>
+    </div>
+
+    <!-- Embedded Interactive CAD Viewport -->
+    <div class="cad-stage-viewport" style="position:relative">
+      <div id="cadEngineOverlay" class="cad-engine-overlay" hidden>
+        <div class="cad-engine-spinner"></div>
+        <div class="cad-engine-msg" id="cadEngineMsg">Connecting to CAD Engine (Port 3245)...</div>
+        <div class="cad-engine-submsg" id="cadEngineSubMsg">Checking local OCC / build123d service</div>
+        <button class="btn btn-p" id="btnRetryCadEngine" type="button" style="margin-top:14px;font-size:12px;display:none">⚡ Retry Connection</button>
+      </div>
+      <iframe
+        id="cadViewerIframe"
+        class="cad-stage-iframe"
+        src="http://127.0.0.1:3245/?file=Aero_Hand_Open_Right.step"
+        title="Interactive 3D CAD Viewer"
+        allow="fullscreen; accelerometer; camera">
+      </iframe>
+    </div>
+
+    </div>
+  </div>
+</section>

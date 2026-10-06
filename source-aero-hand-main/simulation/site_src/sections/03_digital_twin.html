@@ -1,0 +1,215 @@
+<!-- ━━━━━━━━━━━━━━━━ SECTION 3: DIGITAL TWIN LIVE ━━━━━━━━━━━━━━━━ -->
+<section id="digital-twin">
+  <div class="twin-tour-intro">
+    <div>
+      <span class="twin-tour-eyebrow">FIRST TIME HERE?</span>
+      <h2>Explore the digital twin</h2>
+      <p>Take a quick, guided tour of the hand model, motion controls, and live telemetry.</p>
+    </div>
+    <button class="btn btn-p" id="twinTourStart" type="button">Start the walkthrough</button>
+  </div>
+  <div class="twin-tour-card" id="twinTourCard" hidden>
+    <div class="twin-tour-card-copy">
+      <div class="twin-tour-card-meta">
+        <span class="twin-tour-eyebrow">DIGITAL TWIN WALKTHROUGH</span>
+        <span id="twinTourStepCount" aria-live="polite">Step 1 of 5</span>
+      </div>
+      <h3 id="twinTourTitle" tabindex="-1"></h3>
+      <p id="twinTourDescription" aria-live="polite"></p>
+      <div class="twin-tour-progress" aria-hidden="true"><span id="twinTourProgress"></span></div>
+    </div>
+    <div class="twin-tour-actions">
+      <button class="btn" id="twinTourExit" type="button">Exit tour</button>
+      <button class="btn" id="twinTourBack" type="button">Back</button>
+      <button class="btn btn-p" id="twinTourNext" type="button">Next</button>
+    </div>
+    <p class="twin-tour-safety">The tour only explains the interface. It will not connect hardware, start your camera, or move a physical hand.</p>
+  </div>
+  <div class="twin-panel">
+    <!-- Left Column: Controls and Joints -->
+    <div>
+      <div class="twin-source-switch" role="group" aria-label="Control source">
+        <button class="twin-source-btn active" id="btnTwinHardwareMode" type="button">Hardware + Sim Telemetry</button>
+        <button class="twin-source-btn" id="btnTwinAiMode" type="button">AI Vision Hand Tracking</button>
+      </div>
+
+      <div id="twinHardwareControls">
+      <div class="twin-header">
+        <div>
+          <h3 id="twinModeTitle" style="font-size:17px;font-weight:700">Hardware &amp; Sim Telemetry</h3>
+          <span id="twinModeTarget" style="font-size:11px;color:var(--muted)">Target: <code>digital_twin_bridge.py</code></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="twin-status-pill offline" id="twinStatusPill">
+            <span class="twin-dot"></span>
+            <span id="twinStatusText">Disconnected (Demo Mode)</span>
+          </span>
+          <div id="twinHardwareActions" style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn" id="btnToggleConnect" style="padding:6px 12px;font-size:11.5px">Connect Bridge</button>
+            <button class="btn" id="btnToggleDemo" style="padding:6px 12px;font-size:11.5px">Start Demo Motion</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode & Gesture Row -->
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;background:rgba(255,255,255,.72);padding:10px 14px;border-radius:10px;border:1px solid var(--border)">
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink)">
+          <input type="checkbox" id="chkMirrorMode" style="accent-color:var(--cyan)">
+          <strong>Mirror Mode:</strong> Sim sliders drive physical hand
+        </label>
+        <div id="twinPresetGroup" style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn" id="btnPresetOpen" style="padding:4px 9px;font-size:11px">✋ Open Palm</button>
+          <button class="btn" id="btnPresetGrasp" style="padding:4px 9px;font-size:11px">✊ Fist Grip</button>
+          <button class="btn" id="btnPresetPinch" style="padding:4px 9px;font-size:11px">🤏 Pinch</button>
+          <button class="btn" id="btnPresetPeace" style="padding:4px 9px;font-size:11px">✌ Peace</button>
+          <button class="btn" id="btnPresetPoint" style="padding:4px 9px;font-size:11px">👉 Point</button>
+          <button class="btn" id="btnPresetRock" style="padding:4px 9px;font-size:11px">🤟 Rock</button>
+        </div>
+      </div>
+
+      <!-- 5-Finger FSR Pressure Gauges -->
+      <span class="card-lbl">Fingertip Pressure Sensors (FSR 402 / Touch Sensors)</span>
+      <div class="fsr-gauge-grid">
+        <div class="fsr-gauge-card">
+          <div class="fsr-icon">👍</div>
+          <div class="fsr-finger-name">Thumb</div>
+          <div class="fsr-value-display" id="valFsr0">0.0 <span style="font-size:10px;color:var(--muted)">N</span></div>
+          <div class="fsr-bar-track"><div class="fsr-bar-fill" id="barFsr0"></div></div>
+        </div>
+        <div class="fsr-gauge-card">
+          <div class="fsr-icon">☝️</div>
+          <div class="fsr-finger-name">Index</div>
+          <div class="fsr-value-display" id="valFsr1">0.0 <span style="font-size:10px;color:var(--muted)">N</span></div>
+          <div class="fsr-bar-track"><div class="fsr-bar-fill" id="barFsr1"></div></div>
+        </div>
+        <div class="fsr-gauge-card">
+          <div class="fsr-icon">🖕</div>
+          <div class="fsr-finger-name">Middle</div>
+          <div class="fsr-value-display" id="valFsr2">0.0 <span style="font-size:10px;color:var(--muted)">N</span></div>
+          <div class="fsr-bar-track"><div class="fsr-bar-fill" id="barFsr2"></div></div>
+        </div>
+        <div class="fsr-gauge-card">
+          <div class="fsr-icon">💍</div>
+          <div class="fsr-finger-name">Ring</div>
+          <div class="fsr-value-display" id="valFsr3">0.0 <span style="font-size:10px;color:var(--muted)">N</span></div>
+          <div class="fsr-bar-track"><div class="fsr-bar-fill" id="barFsr3"></div></div>
+        </div>
+        <div class="fsr-gauge-card">
+          <div class="fsr-icon">🤙</div>
+          <div class="fsr-finger-name">Pinky</div>
+          <div class="fsr-value-display" id="valFsr4">0.0 <span style="font-size:10px;color:var(--muted)">N</span></div>
+          <div class="fsr-bar-track"><div class="fsr-bar-fill" id="barFsr4"></div></div>
+        </div>
+      </div>
+
+      <!-- Real-Time Telemetry Oscilloscope Canvas -->
+      <div class="osc-canvas-card">
+        <div class="osc-canvas-header">
+          <span style="font-weight:600;color:var(--cyan)">Live Oscilloscope Telemetry (60 Hz Real-Time Stream)</span>
+          <span style="font-family:var(--mono);color:var(--muted);font-size:10px">FSR Forces &amp; Servo Activity</span>
+        </div>
+        <canvas id="oscCanvas" class="osc-canvas"></canvas>
+      </div>
+
+      <!-- 16 Joint Angles Grid -->
+      <span class="card-lbl" style="margin-top:16px">16 Articulated Joint Angles (Degrees)</span>
+      <div class="joint-grid" id="jointSlidersContainer">
+        <!-- Injected dynamically via digital_twin.js -->
+      </div>
+      </div>
+
+      <!-- AI Webcam Gesture Teleoperation Card -->
+      <div class="twin-source-panel" id="aiVisionPanel" hidden>
+      <div class="card" style="padding:16px;background:rgba(255,255,255,.72)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span class="card-lbl">AI Vision Hand Tracking</span>
+          <label style="display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted);cursor:pointer">
+            <input type="checkbox" id="chkWebcamMirror" checked style="accent-color:var(--cyan)"> Mirror
+          </label>
+        </div>
+        <div class="webcam-viewport-wrap" style="position:relative;height:560px;background:#050d1a;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+          <video id="webcamVideo" class="webcam-video" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover"></video>
+          <canvas id="webcamLandmarkCanvas" class="webcam-canvas-landmarks" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+          <div class="webcam-placeholder" id="webcamPlaceholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px">
+            <span style="font-size:24px">📹</span>
+            <strong style="font-size:12px;color:var(--ink)">AI Webcam Teleop</strong>
+            <span style="font-size:10px;color:var(--muted)">Stream real-time gestures to digital twin</span>
+          </div>
+          <div style="position:absolute;top:6px;right:6px;display:flex;align-items:center;gap:5px;background:rgba(5,13,26,0.8);padding:2px 8px;border-radius:99px;font-size:10px">
+            <div id="webcamStatusDot" style="width:7px;height:7px;border-radius:50%;background:#64748b"></div>
+            <span id="webcamStatusText" style="color:var(--muted)">Idle</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button class="btn btn-p" id="btnToggleWebcam" style="flex:1;padding:6px 10px;font-size:11px">📷 Start Camera</button>
+        </div>
+        <div class="webcam-calibration" aria-labelledby="webcamCalibrationTitle">
+          <div class="webcam-calibration-heading">
+            <strong id="webcamCalibrationTitle">Personalize hand tracking</strong>
+            <span id="webcamCalibrationState" role="status" aria-live="polite">Using default tracking range</span>
+          </div>
+          <p>With your hand visible, capture a relaxed open hand and then a comfortable fist. This adjusts visual retargeting only; it does not calibrate or move physical hardware.</p>
+          <div class="webcam-calibration-actions">
+            <button class="btn" id="btnCaptureOpenHand" type="button" disabled>1. Capture open hand</button>
+            <button class="btn" id="btnCaptureClosedHand" type="button" disabled>2. Capture fist</button>
+            <button class="btn" id="btnResetHandCalibration" type="button">Reset</button>
+          </div>
+          <span id="webcamCalibrationHint" class="webcam-calibration-hint" aria-live="polite">Start the camera and show one hand to enable calibration.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;text-align:center;font-size:10px">
+          <div style="background:rgba(93,228,228,0.05);padding:4px;border-radius:4px"><div style="color:var(--muted)">FPS</div><div id="webcamFpsVal" style="color:var(--cyan);font-weight:700">--</div></div>
+          <div style="background:rgba(93,228,228,0.05);padding:4px;border-radius:4px"><div style="color:var(--muted)">CONF</div><div id="webcamConfVal" style="color:var(--green);font-weight:700">--%</div></div>
+          <div style="background:rgba(93,228,228,0.05);padding:4px;border-radius:4px"><div style="color:var(--muted)">LATENCY</div><div id="webcamLatencyVal" style="color:var(--purple);font-weight:700">-- ms</div></div>
+        </div>
+        <div id="webcamJointsPreview" style="font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:6px">Thumb: 0° | Index: 0° | Middle: 0° | Ring: 0° | Pinky: 0°</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Actuator Currents & Bridge Status -->
+    <div class="twin-simulation-column" style="display:flex;flex-direction:column;gap:14px">
+      <div class="card twin-simulation-card">
+        <div class="twin-simulation-heading">
+          <div class="twin-simulation-title">
+            <span class="card-lbl">Live URDF Simulation</span>
+            <div class="twin-hand-switcher" role="group" aria-label="URDF hand model">
+              <button class="twin-hand-btn active" type="button" data-urdf-model="right" aria-pressed="true">Right</button>
+              <button class="twin-hand-btn" type="button" data-urdf-model="left" aria-pressed="false">Left</button>
+            </div>
+          </div>
+          <span class="pill pill-g" id="urdfSimulationStatus">Loading model...</span>
+        </div>
+        <div class="twin-simulation-viewport" id="urdfSimulationViewport">
+          <canvas id="urdfSimulationCanvas" aria-label="Interactive URDF hand simulation"></canvas>
+        </div>
+        <div class="twin-simulation-footer">Manual sliders, presets, webcam tracking, and bridge telemetry all drive this model.</div>
+      </div>
+
+      <div class="twin-source-panel" id="hardwareTelemetryPanel">
+        <div class="card" style="padding:16px;background:rgba(255,255,255,.72)">
+        <span class="card-lbl">Actuator Currents (mA)</span>
+        <table class="actuator-table">
+          <thead><tr><th>Actuator Channel</th><th>Current</th><th>Status</th></tr></thead>
+          <tbody id="actuatorTableBody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="twin-source-panel" id="bridgeTelemetryPanel">
+      <div class="card" style="padding:16px;background:rgba(255,255,255,.72)">
+        <span class="card-lbl">Bridge Command Line</span>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:8px">To start real-time mirroring from your terminal:</p>
+        <div class="ex-card" style="padding:10px;font-size:11px">
+          <code>python simulation/digital_twin_bridge.py --port COM3 --ws</code>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px">
+          • Baudrate: 921,600 · Dual serial support for Arduino FSR board.<br>
+          • 50 Hz Gazebo, MuJoCo, and Unity WebSocket synchronization.
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
