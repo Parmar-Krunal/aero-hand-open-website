@@ -3,37 +3,55 @@
 This folder contains the Aero Hand Open website and the assets required by its
 interactive CAD viewer, digital twin, and download links.
 
-## Run locally
+## Start the complete website locally
 
-1. Install Python 3.10 or newer and make sure `python` is on `PATH`.
-2. Run [`START_WEBSITE.bat`](./START_WEBSITE.bat).
-3. The launcher builds the site, starts the local CAD and telemetry services,
-   opens the website in your browser, and keeps the preview running until you
-   press Ctrl+C in the launcher window.
+### Recommended: Docker Compose
 
-The launcher reports the website port (8765), CAD viewer port (3245), and
-digital-twin WebSocket port (8888). The URDF hand viewer is inside the website's
-Digital Twin section. Running the launcher again reuses the preview when all
-three Aero Hand services are already healthy. Close the original launcher
-window to stop services started by that window.
+Install Docker Desktop (Windows/macOS) or Docker Engine with the Compose plugin
+(Linux), then clone this repository and open a terminal in the cloned folder:
 
-The site can also be opened directly at
-[`source-aero-hand-main/simulation/index.html`](./source-aero-hand-main/simulation/index.html).
-Interactive CAD and live telemetry require the local services started by the
-batch launcher.
+```sh
+git clone https://github.com/Parmar-Krunal/aero-hand-open-website.git
+cd aero-hand-open-website
+docker compose -f source-aero-hand-main/compose.yaml up --build
+```
+
+On Windows, the same command works in PowerShell. Wait for all three services
+to start, then open <http://localhost:8765/simulation/index.html>. The site
+includes the interactive CAD viewer and digital-twin/URDF viewer.
+
+| Service | Local address |
+| --- | --- |
+| Website | <http://localhost:8765/simulation/index.html> |
+| CAD viewer | <http://localhost:3245> |
+| Digital-twin WebSocket | `ws://localhost:8888` |
+
+Press Ctrl+C in the Compose terminal to stop the services. To start them in the
+background, add `-d` to the `up --build` command; stop them later with:
+
+```sh
+docker compose -f source-aero-hand-main/compose.yaml down
+```
+
+The ports bind to the local machine only. This is a local demo stack, not a
+public production deployment. The twin uses synthetic dry-run telemetry and
+does not connect to physical hand hardware.
+
+### Alternative: Windows Python launcher
+
+Install Python 3.10 or newer, then double-click [`START_WEBSITE.bat`](./START_WEBSITE.bat).
+It checks dependencies, builds the website, starts all three local services,
+and opens the preview. Keep its window open while using the site; press Ctrl+C
+there to stop the services. If a healthy full stack is already running, a new
+launch reuses it.
 
 ## Share or download the project
 
-After this folder is published to GitHub, others can clone or download it. On
-Windows, they can start the local demo by running `START_WEBSITE.bat`; Python,
-the `websockets` package, and `cadgen==0.7.10` are required. The launcher checks
-the required ports (8765, 3245, and 8888), starts the website, CAD viewer, and
-synthetic digital-twin services, and opens the preview. Press Ctrl+C in the
-launcher window to stop them.
-
-The viewer endpoints bind to the local machine. This project is intended for a
-local preview; sharing the repository does not publish those running services
-to the internet.
+Anyone can clone or download this repository from GitHub. For a reproducible
+complete local setup, use the Docker Compose command above; it builds the image
+and starts the website, CAD viewer, and synthetic twin together. Copilot
+repository guidance is in [`.github/copilot-instructions.md`](./.github/copilot-instructions.md).
+Downloading the source does not publish the running services to the internet.
 
 ## Build and validate
 
