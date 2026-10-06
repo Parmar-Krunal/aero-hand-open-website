@@ -16,12 +16,16 @@ Manages the complete local development ecosystem:
 """
 
 from __future__ import annotations
+import asyncio
 import atexit
+import json
 import signal
 import socket
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.request
 import webbrowser
 from pathlib import Path
 
@@ -63,18 +67,62 @@ def print_banner():
     print(banner)
 
 
-def cleanup_all_ports():
+def probe_http_service(port: int, expected_content: str) -> bool:
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=2) as response:
+            content = response.read(8192).decode("utf-8", errors="replace")
+    except (OSError, urllib.error.URLError, TimeoutError):
+        return False
+    return response.status == 200 and expected_content in content
+
+
+async def probe_twin_service() -> bool:
+    try:
+        import websockets
+    except ImportError:
+        return False
+
+    try:
+        async with websockets.connect("ws://127.0.0.1:8888", open_timeout=2) as client:
+            message = await asyncio.wait_for(client.recv(), timeout=2)
+    except (OSError, asyncio.TimeoutError, websockets.exceptions.WebSocketException):
+        return False
+
+    try:
+        payload = json.loads(message)
+    except (json.JSONDecodeError, TypeError):
+        return False
+    return isinstance(payload.get("joint_deg"), list) and len(payload["joint_deg"]) == 16
+
+
+def probe_existing_services() -> bool:
+    return (
+        probe_http_service(8765, "source-aero-hand-main/simulation/index.html")
+        and probe_http_service(3245, "<title>CAD</title>")
+        and asyncio.run(probe_twin_service())
+    )
+
+
+def cleanup_all_ports() -> bool:
+    """Check ports and reuse the complete preview when it is already running."""
     print(f"\n{ANSI_BOLD}[1/5] Checking required ports...{ANSI_RESET}")
     port_labels = {8765: "Website", 3245: "CAD viewer", 8888: "Digital twin"}
     occupied = [port for port in port_labels if is_port_open(port)]
     if occupied:
+        if len(occupied) == len(port_labels) and probe_existing_services():
+            print(
+                f"  {ANSI_GREEN}✓ Existing website, CAD viewer, and digital-twin "
+                f"services are healthy; reusing them.{ANSI_RESET}"
+            )
+            return True
         details = ", ".join(f"{port_labels[port]} ({port})" for port in occupied)
         raise RuntimeError(
-            f"Required port(s) already in use: {details}. Stop the process using "
-            "those ports, then run START_WEBSITE.bat again."
+            f"Required port(s) are already in use by unavailable or unrecognized "
+            f"services: {details}. Stop those services before starting a new preview."
         )
     for port, label in port_labels.items():
         print(f"  {ANSI_GREEN}✓ {label} port {port} is available{ANSI_RESET}")
+    return False
 
 
 def verify_dependencies():
@@ -212,6 +260,8 @@ def wait_for_services(timeout_sec: float = 12.0) -> bool:
 
 def stop_all_services():
     global CHILD_PROCESSES, LOG_HANDLES
+    if not CHILD_PROCESSES and not LOG_HANDLES:
+        return
     print(f"\n{ANSI_YELLOW}Stopping background services...{ANSI_RESET}")
     for proc in CHILD_PROCESSES:
         try:
@@ -291,6 +341,13 @@ def interactive_menu():
             elif cmd == "B":
                 compile_website()
             elif cmd == "R":
+                if not CHILD_PROCESSES:
+                    print(
+                        f"{ANSI_YELLOW}This launcher is reusing services started "
+                        "by another window. Close their original launcher to restart them."
+                        f"{ANSI_RESET}"
+                    )
+                    continue
                 print(f"{ANSI_YELLOW}Restarting all services...{ANSI_RESET}")
                 stop_all_services()
                 cleanup_all_ports()
@@ -305,7 +362,7 @@ def interactive_menu():
             break
 
 
-def preview_mode():
+def preview_mode(reused: bool = False):
     site_path = (
         "/source-aero-hand-main/simulation/index.html"
         if (ROOT_DIR / "source-aero-hand-main" / "simulation" / "index.html").exists()
@@ -317,11 +374,16 @@ def preview_mode():
     print("  CAD viewer:  http://127.0.0.1:3245/")
     print("  Twin socket: ws://127.0.0.1:8888")
     print("  URDF viewer: Digital Twin section in the website preview")
-    print("Press Ctrl+C to stop all services.")
+    if reused:
+        print("These services belong to another launcher; close that original window to stop them.")
+    else:
+        print("Press Ctrl+C to stop all services.")
     webbrowser.open(entry_url)
 
     while True:
         failed = [proc for proc in CHILD_PROCESSES if proc.poll() is not None]
+        if reused and not all(is_port_open(port) for port in (8765, 3245, 8888)):
+            raise RuntimeError("A reused preview service stopped unexpectedly.")
         if failed:
             raise RuntimeError(
                 "A website service stopped unexpectedly; check the simulation/logs folder."
@@ -341,7 +403,13 @@ def main():
     args = parser.parse_args()
 
     print_banner()
-    cleanup_all_ports()
+    reused = cleanup_all_ports()
+    if reused:
+        if args.preview:
+            preview_mode(reused=True)
+        else:
+            interactive_menu()
+        return
     verify_dependencies()
     compile_website()
     start_services()

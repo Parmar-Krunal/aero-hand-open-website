@@ -11,6 +11,9 @@ source-aero-hand-main/simulation/logs/
 .env.*
 !.env.example
 
+# A local clone of this repository must not be nested into the project
+/aero-hand-open-website/
+
 # Operating system and editor files
 .DS_Store
 Thumbs.db

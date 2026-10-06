@@ -13,7 +13,9 @@ interactive CAD viewer, digital twin, and download links.
 
 The launcher reports the website port (8765), CAD viewer port (3245), and
 digital-twin WebSocket port (8888). The URDF hand viewer is inside the website's
-Digital Twin section.
+Digital Twin section. Running the launcher again reuses the preview when all
+three Aero Hand services are already healthy. Close the original launcher
+window to stop services started by that window.
 
 The site can also be opened directly at
 [`source-aero-hand-main/simulation/index.html`](./source-aero-hand-main/simulation/index.html).
